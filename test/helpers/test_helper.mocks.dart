@@ -245,6 +245,30 @@ class MockMovieLocalDataSource extends _i1.Mock
               returnValue:
                   _i6.Future<List<_i14.MovieTable>>.value(<_i14.MovieTable>[]))
           as _i6.Future<List<_i14.MovieTable>>);
+  @override
+  _i6.Future<void> cachePopularMovies(List<_i14.MovieTable>? movies) =>
+      (super.noSuchMethod(Invocation.method(#cachePopularMovies, [movies]),
+              returnValue: _i6.Future<void>.value(),
+              returnValueForMissingStub: _i6.Future<void>.value())
+          as _i6.Future<void>);
+  @override
+  _i6.Future<List<_i14.MovieTable>> getCachedPopularMovies() =>
+      (super.noSuchMethod(Invocation.method(#getCachedPopularMovies, []),
+              returnValue:
+                  _i6.Future<List<_i14.MovieTable>>.value(<_i14.MovieTable>[]))
+          as _i6.Future<List<_i14.MovieTable>>);
+  @override
+  _i6.Future<void> cacheTopRatedMovies(List<_i14.MovieTable>? movies) =>
+      (super.noSuchMethod(Invocation.method(#cacheTopRatedMovies, [movies]),
+              returnValue: _i6.Future<void>.value(),
+              returnValueForMissingStub: _i6.Future<void>.value())
+          as _i6.Future<void>);
+  @override
+  _i6.Future<List<_i14.MovieTable>> getCachedTopRatedMovies() =>
+      (super.noSuchMethod(Invocation.method(#getCachedTopRatedMovies, []),
+              returnValue:
+                  _i6.Future<List<_i14.MovieTable>>.value(<_i14.MovieTable>[]))
+          as _i6.Future<List<_i14.MovieTable>>);
 }
 
 /// A class which mocks [TvShowRepository].
