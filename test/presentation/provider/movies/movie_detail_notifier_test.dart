@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../dummy_data/movies/dummy_objects.dart';
+import '../../../dummy_data/movies/dummy_objects_movie.dart';
 import 'movie_detail_notifier_test.mocks.dart';
 
 @GenerateMocks([

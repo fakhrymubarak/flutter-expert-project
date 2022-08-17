@@ -1,4 +1,5 @@
 import 'package:ditonton/presentation/pages/about/about_page.dart';
+import 'package:ditonton/presentation/pages/movies/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/watchlists/watchlist_movies_page.dart';
 import 'package:flutter/material.dart';
 
@@ -34,12 +35,20 @@ class _CustomDrawerState extends State<CustomDrawer>
            currentAccountPicture: CircleAvatar(
                 backgroundImage: AssetImage('assets/circle-g.png'),
               ),
-            accountName: Text('Ditonton'),
-            accountEmail: Text('ditonton@dicoding.com'),
+            accountName: Text('Fakhry Mubarak'),
+            accountEmail: Text('fakhrymubarak@gmail.com'),
+          ),
+          ListTile(
+            leading: Icon(Icons.live_tv),
+            title: Text('Tv Show'),
           ),
           ListTile(
             leading: Icon(Icons.movie),
             title: Text('Movies'),
+            onTap: () {
+              Navigator.pushNamed(context, HomeMoviePage.ROUTE_NAME);
+              _animationController.reverse();
+            },
           ),
           ListTile(
             leading: Icon(Icons.save_alt),

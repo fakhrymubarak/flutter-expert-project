@@ -1,30 +1,33 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:ditonton/common/exception.dart';
+import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/data/models/movies/movie_detail_model.dart';
 import 'package:ditonton/data/models/movies/movie_model.dart';
 import 'package:ditonton/data/repositories/movie_repository_impl.dart';
-import 'package:ditonton/common/exception.dart';
-import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../dummy_data/movies/dummy_objects.dart';
+import '../../dummy_data/movies/dummy_objects_movie.dart';
 import '../../helpers/test_helper.mocks.dart';
 
 void main() {
   late MovieRepositoryImpl repository;
   late MockMovieRemoteDataSource mockRemoteDataSource;
   late MockMovieLocalDataSource mockLocalDataSource;
+  late MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
     mockRemoteDataSource = MockMovieRemoteDataSource();
     mockLocalDataSource = MockMovieLocalDataSource();
+    mockNetworkInfo = MockNetworkInfo();
     repository = MovieRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
+      networkInfo: mockNetworkInfo,
     );
   });
 
@@ -66,46 +69,91 @@ void main() {
   final tMovieList = <Movie>[tMovie];
 
   group('Now Playing Movies', () {
-    test(
-        'should return remote data when the call to remote data source is successful',
-        () async {
+    test('should check if the device is online', () async {
       // arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(mockRemoteDataSource.getNowPlayingMovies())
-          .thenAnswer((_) async => tMovieModelList);
+          .thenAnswer((_) async => []);
       // act
-      final result = await repository.getNowPlayingMovies();
+      await repository.getNowPlayingMovies();
       // assert
-      verify(mockRemoteDataSource.getNowPlayingMovies());
-      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
-      final resultList = result.getOrElse(() => []);
-      expect(resultList, tMovieList);
+      verify(mockNetworkInfo.isConnected);
     });
 
-    test(
-        'should return server failure when the call to remote data source is unsuccessful',
-        () async {
-      // arrange
-      when(mockRemoteDataSource.getNowPlayingMovies())
-          .thenThrow(ServerException());
-      // act
-      final result = await repository.getNowPlayingMovies();
-      // assert
-      verify(mockRemoteDataSource.getNowPlayingMovies());
-      expect(result, equals(Left(ServerFailure(''))));
+    group('when device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test(
+          'should return remote data when the call to remote data source is successful',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getNowPlayingMovies())
+                .thenAnswer((_) async => tMovieModelList);
+            // act
+            final result = await repository.getNowPlayingMovies();
+            // assert
+            verify(mockRemoteDataSource.getNowPlayingMovies());
+            /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+            final resultList = result.getOrElse(() => []);
+            expect(resultList, tMovieList);
+          });
+
+      test(
+          'should cache data locally when the call to remote data source is successful',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getNowPlayingMovies())
+                .thenAnswer((_) async => tMovieModelList);
+            // act
+            await repository.getNowPlayingMovies();
+            // assert
+            verify(mockRemoteDataSource.getNowPlayingMovies());
+            verify(mockLocalDataSource.cacheNowPlayingMovies([testMovieCache]));
+          });
+
+      test(
+          'should return server failure when the call to remote data source is unsuccessful',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getNowPlayingMovies())
+                .thenThrow(ServerException());
+            // act
+            final result = await repository.getNowPlayingMovies();
+            // assert
+            verify(mockRemoteDataSource.getNowPlayingMovies());
+            expect(result, equals(Left(ServerFailure(''))));
+          });
     });
 
-    test(
-        'should return connection failure when the device is not connected to internet',
-        () async {
-      // arrange
-      when(mockRemoteDataSource.getNowPlayingMovies())
-          .thenThrow(SocketException('Failed to connect to the network'));
-      // act
-      final result = await repository.getNowPlayingMovies();
-      // assert
-      verify(mockRemoteDataSource.getNowPlayingMovies());
-      expect(result,
-          equals(Left(ConnectionFailure('Failed to connect to the network'))));
+    group('when device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+
+      test('should return cached data when device is offline', () async {
+        // arrange
+        when(mockLocalDataSource.getCachedNowPlayingMovies())
+            .thenAnswer((_) async => [testMovieCache]);
+        // act
+        final result = await repository.getNowPlayingMovies();
+        // assert
+        verify(mockLocalDataSource.getCachedNowPlayingMovies());
+        final resultList = result.getOrElse(() => []);
+        expect(resultList, [testMovieFromCache]);
+      });
+
+      test('should return CacheFailure when app has no cache', () async {
+        // arrange
+        when(mockLocalDataSource.getCachedNowPlayingMovies())
+            .thenThrow(CacheException('No Cache'));
+        // act
+        final result = await repository.getNowPlayingMovies();
+        // assert
+        verify(mockLocalDataSource.getCachedNowPlayingMovies());
+        expect(result, Left(CacheFailure('No Cache')));
+      });
     });
   });
 
@@ -345,7 +393,7 @@ void main() {
   group('save watchlists', () {
     test('should return success message when saving successful', () async {
       // arrange
-      when(mockLocalDataSource.insertWatchlist(testMovieTable))
+      when(mockLocalDataSource.insertWatchlist(testWatchlistMovieTable))
           .thenAnswer((_) async => 'Added to Watchlist');
       // act
       final result = await repository.saveWatchlist(testMovieDetail);
@@ -355,7 +403,7 @@ void main() {
 
     test('should return DatabaseFailure when saving unsuccessful', () async {
       // arrange
-      when(mockLocalDataSource.insertWatchlist(testMovieTable))
+      when(mockLocalDataSource.insertWatchlist(testWatchlistMovieTable))
           .thenThrow(DatabaseException('Failed to add watchlists'));
       // act
       final result = await repository.saveWatchlist(testMovieDetail);
@@ -367,7 +415,7 @@ void main() {
   group('remove watchlists', () {
     test('should return success message when remove successful', () async {
       // arrange
-      when(mockLocalDataSource.removeWatchlist(testMovieTable))
+      when(mockLocalDataSource.removeWatchlist(testWatchlistMovieTable))
           .thenAnswer((_) async => 'Removed from watchlists');
       // act
       final result = await repository.removeWatchlist(testMovieDetail);
@@ -377,7 +425,7 @@ void main() {
 
     test('should return DatabaseFailure when remove unsuccessful', () async {
       // arrange
-      when(mockLocalDataSource.removeWatchlist(testMovieTable))
+      when(mockLocalDataSource.removeWatchlist(testWatchlistMovieTable))
           .thenThrow(DatabaseException('Failed to remove watchlists'));
       // act
       final result = await repository.removeWatchlist(testMovieDetail);
@@ -402,7 +450,7 @@ void main() {
     test('should return list of Movies', () async {
       // arrange
       when(mockLocalDataSource.getWatchlistMovies())
-          .thenAnswer((_) async => [testMovieTable]);
+          .thenAnswer((_) async => [testWatchlistMovieTable]);
       // act
       final result = await repository.getWatchlistMovies();
       // assert

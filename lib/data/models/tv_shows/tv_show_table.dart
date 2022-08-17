@@ -1,38 +1,38 @@
-import 'package:ditonton/data/models/movies/movie_model.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/entities/movie_detail.dart';
+import 'package:ditonton/data/models/tv_shows/tv_shows_model.dart';
+import 'package:ditonton/domain/entities/tv_show.dart';
+import 'package:ditonton/domain/entities/tv_show_detail.dart';
 import 'package:equatable/equatable.dart';
 
-class MovieTable extends Equatable {
+class TvShowTable extends Equatable {
   final int id;
   final String? title;
   final String? posterPath;
   final String? overview;
 
-  MovieTable({
+  TvShowTable({
     required this.id,
     required this.title,
     required this.posterPath,
     required this.overview,
   });
 
-  factory MovieTable.fromEntity(MovieDetail movie) => MovieTable(
-        id: movie.id,
-        title: movie.title,
-        posterPath: movie.posterPath,
-        overview: movie.overview,
+  factory TvShowTable.fromEntity(TvShowDetail tvShow) => TvShowTable(
+        id: tvShow.id,
+        title: tvShow.name,
+        posterPath: tvShow.posterPath,
+        overview: tvShow.overview,
       );
 
-  factory MovieTable.fromMap(Map<String, dynamic> map) => MovieTable(
+  factory TvShowTable.fromMap(Map<String, dynamic> map) => TvShowTable(
         id: map['id'],
         title: map['title'],
         posterPath: map['posterPath'],
         overview: map['overview'],
       );
 
-  factory MovieTable.fromDTO(MovieModel movie) => MovieTable(
+  factory TvShowTable.fromDTO(TvShowModel movie) => TvShowTable(
     id: movie.id,
-    title: movie.title,
+    title: movie.name,
     posterPath: movie.posterPath,
     overview: movie.overview,
   );
@@ -44,15 +44,13 @@ class MovieTable extends Equatable {
         'overview': overview,
       };
 
-  Movie toEntity() => Movie.watchlist(
+  TvShow toEntity() => TvShow.watchlist(
         id: id,
         overview: overview,
         posterPath: posterPath,
-        title: title,
+        name: title,
       );
 
   @override
   List<Object?> get props => [id, title, posterPath, overview];
-
-
 }
