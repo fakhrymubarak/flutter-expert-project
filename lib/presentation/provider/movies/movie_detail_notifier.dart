@@ -4,8 +4,8 @@ import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/domain/usecases/movies/get_movie_detail.dart';
 import 'package:ditonton/domain/usecases/movies/get_movie_recommendations.dart';
 import 'package:ditonton/domain/usecases/watchlists/get_watchlist_status.dart';
-import 'package:ditonton/domain/usecases/watchlists/remove_watchlist.dart';
-import 'package:ditonton/domain/usecases/watchlists/save_watchlist.dart';
+import 'package:ditonton/domain/usecases/watchlists/remove_movie_watchlist.dart';
+import 'package:ditonton/domain/usecases/watchlists/save_movie_watchlist.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +15,9 @@ class MovieDetailNotifier extends ChangeNotifier {
 
   final GetMovieDetail getMovieDetail;
   final GetMovieRecommendations getMovieRecommendations;
-  final GetMovieWatchListStatus getWatchListStatus;
-  final SaveWatchlist saveWatchlist;
-  final RemoveWatchlist removeWatchlist;
+  final GetWatchListStatus getWatchListStatus;
+  final SaveMovieWatchlist saveWatchlist;
+  final RemoveMovieWatchlist removeWatchlist;
 
   MovieDetailNotifier({
     required this.getMovieDetail,

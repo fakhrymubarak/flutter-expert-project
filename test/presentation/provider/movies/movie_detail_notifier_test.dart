@@ -5,8 +5,8 @@ import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/usecases/movies/get_movie_detail.dart';
 import 'package:ditonton/domain/usecases/movies/get_movie_recommendations.dart';
 import 'package:ditonton/domain/usecases/watchlists/get_watchlist_status.dart';
-import 'package:ditonton/domain/usecases/watchlists/remove_watchlist.dart';
-import 'package:ditonton/domain/usecases/watchlists/save_watchlist.dart';
+import 'package:ditonton/domain/usecases/watchlists/remove_movie_watchlist.dart';
+import 'package:ditonton/domain/usecases/watchlists/save_movie_watchlist.dart';
 import 'package:ditonton/presentation/provider/movies/movie_detail_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -18,9 +18,9 @@ import 'movie_detail_notifier_test.mocks.dart';
 @GenerateMocks([
   GetMovieDetail,
   GetMovieRecommendations,
-  GetMovieWatchListStatus,
-  SaveWatchlist,
-  RemoveWatchlist,
+  GetWatchListStatus,
+  SaveMovieWatchlist,
+  RemoveMovieWatchlist,
 ])
 void main() {
   late MovieDetailNotifier provider;
