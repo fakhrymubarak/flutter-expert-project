@@ -21,20 +21,58 @@ class TvShowRepositoryImpl implements TvShowRepository {
 
   @override
   Future<Either<Failure, List<TvShow>>> getOnAirTvShows() async {
-    if(await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
         final result = await remoteDataSource.getOnAirTvShows();
         localDataSource.cacheOnAirTvShow(
-          result.map((tvShow) => TvShowTable.fromDTO(tvShow)).toList());
+            result.map((tvShow) => TvShowTable.fromDTO(tvShow)).toList());
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
       }
-    } else {
-
-    }
+    } else {}
     try {
       final result = await localDataSource.getCachedOnAirTvShow();
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on CacheException catch (e) {
+      return Left(CacheFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TvShow>>> getPopularTvShows() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getPopularTvShows();
+        localDataSource.cachePopularTvShow(
+            result.map((tvShow) => TvShowTable.fromDTO(tvShow)).toList());
+        return Right(result.map((model) => model.toEntity()).toList());
+      } on ServerException {
+        return Left(ServerFailure(''));
+      }
+    } else {}
+    try {
+      final result = await localDataSource.getCachedPopularTvShow();
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on CacheException catch (e) {
+      return Left(CacheFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TvShow>>> getTopRatedTvShows() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getTopRatedTvShows();
+        localDataSource.cacheTopRatedTvShow(
+            result.map((tvShow) => TvShowTable.fromDTO(tvShow)).toList());
+        return Right(result.map((model) => model.toEntity()).toList());
+      } on ServerException {
+        return Left(ServerFailure(''));
+      }
+    } else {}
+    try {
+      final result = await localDataSource.getCachedTopRatedTvShow();
       return Right(result.map((model) => model.toEntity()).toList());
     } on CacheException catch (e) {
       return Left(CacheFailure(e.message));

@@ -78,7 +78,8 @@ void main() {
 
     test('should return null when data is not found', () async {
       // arrange
-      when(mockDatabaseHelper.getTvShowWatchlistById(tId)).thenAnswer((_) async => null);
+      when(mockDatabaseHelper.getTvShowWatchlistById(tId))
+          .thenAnswer((_) async => null);
       // act
       final result = await dataSource.getTvShowById(tId);
       // assert
@@ -127,6 +128,74 @@ void main() {
           .thenAnswer((_) async => []);
       // act
       final call = dataSource.getCachedOnAirTvShow();
+      // assert
+      expect(() => call, throwsA(isA<CacheException>()));
+    });
+  });
+
+  group('cache popular tvshows', () {
+    test('should call database helper to save data', () async {
+      // arrange
+      when(mockDatabaseHelper.clearCacheTvShow('popular'))
+          .thenAnswer((_) async => 1);
+      // act
+      await dataSource.cachePopularTvShow([testTvShowCache]);
+      // assert
+      verify(mockDatabaseHelper.clearCacheTvShow('popular'));
+      verify(mockDatabaseHelper
+          .insertCacheTvShowTransaction([testTvShowCache], 'popular'));
+    });
+
+    test('should return list of tvshow from db when data exist', () async {
+      // arrange
+      when(mockDatabaseHelper.getCachesTvShow('popular'))
+          .thenAnswer((_) async => [testTvShowCacheMap]);
+      // act
+      final result = await dataSource.getCachedPopularTvShow();
+      // assert
+      expect(result, [testTvShowCache]);
+    });
+
+    test('should throw CacheException when cache data is not exist', () async {
+      // arrange
+      when(mockDatabaseHelper.getCachesTvShow('popular'))
+          .thenAnswer((_) async => []);
+      // act
+      final call = dataSource.getCachedPopularTvShow();
+      // assert
+      expect(() => call, throwsA(isA<CacheException>()));
+    });
+  });
+
+  group('cache top rated tvshows', () {
+    test('should call database helper to save data', () async {
+      // arrange
+      when(mockDatabaseHelper.clearCacheTvShow('top rated'))
+          .thenAnswer((_) async => 1);
+      // act
+      await dataSource.cacheTopRatedTvShow([testTvShowCache]);
+      // assert
+      verify(mockDatabaseHelper.clearCacheTvShow('top rated'));
+      verify(mockDatabaseHelper
+          .insertCacheTvShowTransaction([testTvShowCache], 'top rated'));
+    });
+
+    test('should return list of tvshow from db when data exist', () async {
+      // arrange
+      when(mockDatabaseHelper.getCachesTvShow('top rated'))
+          .thenAnswer((_) async => [testTvShowCacheMap]);
+      // act
+      final result = await dataSource.getCachedTopRatedTvShow();
+      // assert
+      expect(result, [testTvShowCache]);
+    });
+
+    test('should throw CacheException when cache data is not exist', () async {
+      // arrange
+      when(mockDatabaseHelper.getCachesTvShow('top rated'))
+          .thenAnswer((_) async => []);
+      // act
+      final call = dataSource.getCachedTopRatedTvShow();
       // assert
       expect(() => call, throwsA(isA<CacheException>()));
     });

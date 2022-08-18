@@ -30,8 +30,7 @@ void main() {
     test('should return list of TvShowModel when the response code is 200',
         () async {
       // arrange
-      when(mockHttpClient
-              .get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY')))
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY')))
           .thenAnswer((_) async =>
               http.Response(readJson('dummy_data/tv_shows/on_air.json'), 200));
       // act
@@ -44,11 +43,70 @@ void main() {
         'should throw a ServerException when the response code is 404 or other',
         () async {
       // arrange
-      when(mockHttpClient
-              .get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY')))
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY')))
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
       final call = dataSource.getOnAirTvShows();
+      // assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('get Popular Tv Shows', () {
+    final tTvShowList = TvShowsResponse.fromJson(
+            json.decode(readJson('dummy_data/tv_shows/popular.json')))
+        .tvShowModel;
+
+    test('should return list of TvShowModel when the response code is 200',
+        () async {
+      // arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY')))
+          .thenAnswer((_) async =>
+              http.Response(readJson('dummy_data/tv_shows/popular.json'), 200));
+      // act
+      final result = await dataSource.getPopularTvShows();
+      // assert
+      expect(result, equals(tTvShowList));
+    });
+
+    test(
+        'should throw a ServerException when the response code is 404 or other',
+        () async {
+      // arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.getPopularTvShows();
+      // assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('get Top Rated Tv Shows', () {
+    final tTvShowList = TvShowsResponse.fromJson(
+            json.decode(readJson('dummy_data/tv_shows/top_rated.json')))
+        .tvShowModel;
+
+    test('should return list of TvShowModel when the response code is 200',
+        () async {
+      // arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY')))
+          .thenAnswer((_) async => http.Response(
+              readJson('dummy_data/tv_shows/top_rated.json'), 200));
+      // act
+      final result = await dataSource.getTopRatedTvShows();
+      // assert
+      expect(result, equals(tTvShowList));
+    });
+
+    test(
+        'should throw a ServerException when the response code is 404 or other',
+        () async {
+      // arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.getTopRatedTvShows();
       // assert
       expect(() => call, throwsA(isA<ServerException>()));
     });

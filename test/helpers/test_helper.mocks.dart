@@ -287,6 +287,22 @@ class MockTvShowRepository extends _i1.Mock implements _i15.TvShowRepository {
                       _FakeEither_0<_i7.Failure, List<_i16.TvShow>>(
                           this, Invocation.method(#getOnAirTvShows, []))))
           as _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>>);
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>> getPopularTvShows() =>
+      (super.noSuchMethod(Invocation.method(#getPopularTvShows, []),
+              returnValue:
+                  _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>>.value(
+                      _FakeEither_0<_i7.Failure, List<_i16.TvShow>>(
+                          this, Invocation.method(#getPopularTvShows, []))))
+          as _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>>);
+  @override
+  _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>> getTopRatedTvShows() =>
+      (super.noSuchMethod(Invocation.method(#getTopRatedTvShows, []),
+              returnValue:
+                  _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>>.value(
+                      _FakeEither_0<_i7.Failure, List<_i16.TvShow>>(
+                          this, Invocation.method(#getTopRatedTvShows, []))))
+          as _i6.Future<_i2.Either<_i7.Failure, List<_i16.TvShow>>>);
 }
 
 /// A class which mocks [TvShowRemoteDataSource].
@@ -304,6 +320,17 @@ class MockTvShowRemoteDataSource extends _i1.Mock
           returnValue:
               _i6.Future<List<_i18.TvShowModel>>.value(<_i18.TvShowModel>[]))
       as _i6.Future<List<_i18.TvShowModel>>);
+  @override
+  _i6.Future<List<_i18.TvShowModel>> getPopularTvShows() => (super.noSuchMethod(
+          Invocation.method(#getPopularTvShows, []),
+          returnValue:
+              _i6.Future<List<_i18.TvShowModel>>.value(<_i18.TvShowModel>[]))
+      as _i6.Future<List<_i18.TvShowModel>>);
+  @override
+  _i6.Future<List<_i18.TvShowModel>> getTopRatedTvShows() =>
+      (super.noSuchMethod(Invocation.method(#getTopRatedTvShows, []),
+          returnValue: _i6.Future<List<_i18.TvShowModel>>.value(
+              <_i18.TvShowModel>[])) as _i6.Future<List<_i18.TvShowModel>>);
 }
 
 /// A class which mocks [TvShowLocalDataSource].
@@ -343,6 +370,28 @@ class MockTvShowLocalDataSource extends _i1.Mock
   @override
   _i6.Future<List<_i20.TvShowTable>> getCachedOnAirTvShow() =>
       (super.noSuchMethod(Invocation.method(#getCachedOnAirTvShow, []),
+          returnValue: _i6.Future<List<_i20.TvShowTable>>.value(
+              <_i20.TvShowTable>[])) as _i6.Future<List<_i20.TvShowTable>>);
+  @override
+  _i6.Future<void> cachePopularTvShow(List<_i20.TvShowTable>? tvShows) =>
+      (super.noSuchMethod(Invocation.method(#cachePopularTvShow, [tvShows]),
+              returnValue: _i6.Future<void>.value(),
+              returnValueForMissingStub: _i6.Future<void>.value())
+          as _i6.Future<void>);
+  @override
+  _i6.Future<List<_i20.TvShowTable>> getCachedPopularTvShow() =>
+      (super.noSuchMethod(Invocation.method(#getCachedPopularTvShow, []),
+          returnValue: _i6.Future<List<_i20.TvShowTable>>.value(
+              <_i20.TvShowTable>[])) as _i6.Future<List<_i20.TvShowTable>>);
+  @override
+  _i6.Future<void> cacheTopRatedTvShow(List<_i20.TvShowTable>? tvShows) =>
+      (super.noSuchMethod(Invocation.method(#cacheTopRatedTvShow, [tvShows]),
+              returnValue: _i6.Future<void>.value(),
+              returnValueForMissingStub: _i6.Future<void>.value())
+          as _i6.Future<void>);
+  @override
+  _i6.Future<List<_i20.TvShowTable>> getCachedTopRatedTvShow() =>
+      (super.noSuchMethod(Invocation.method(#getCachedTopRatedTvShow, []),
           returnValue: _i6.Future<List<_i20.TvShowTable>>.value(
               <_i20.TvShowTable>[])) as _i6.Future<List<_i20.TvShowTable>>);
 }
