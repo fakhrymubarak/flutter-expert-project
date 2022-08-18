@@ -3,6 +3,8 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_show.dart';
 import 'package:ditonton/presentation/pages/movies/movie_detail_page.dart';
+import 'package:ditonton/presentation/pages/movies/popular_movies_page.dart';
+import 'package:ditonton/presentation/pages/movies/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/search/search_page.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,9 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
     super.initState();
     Future.microtask(
         () => Provider.of<TvShowListNotifier>(context, listen: false)
-          ..fetchOnAirTvShows());
+          ..fetchOnAirTvShows()
+          ..fetchPopularTvShows()
+          ..fetchTopRatedTvShows());
   }
 
   @override
@@ -61,6 +65,41 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                   return Text('Failed');
                 }
               }),
+
+              _buildSubHeading(
+                title: 'Popular',
+                onTap: () =>
+                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+              ),
+              Consumer<TvShowListNotifier>(builder: (context, data, child) {
+                final state = data.popularState;
+                if (state == RequestState.Loading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state == RequestState.Loaded) {
+                  return TvShowList(data.popularTvShow);
+                } else {
+                  return Text('Failed');
+                }
+              }),
+              _buildSubHeading(
+                title: 'Top Rated',
+                onTap: () =>
+                    Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
+              ),
+              Consumer<TvShowListNotifier>(builder: (context, data, child) {
+                final state = data.topRatedState;
+                if (state == RequestState.Loading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state == RequestState.Loaded) {
+                  return TvShowList(data.topRatedTvShow);
+                } else {
+                  return Text('Failed');
+                }
+              },),
             ],
           ),
         ),
