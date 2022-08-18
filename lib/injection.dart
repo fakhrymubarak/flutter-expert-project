@@ -28,6 +28,7 @@ import 'package:ditonton/presentation/provider/movies/popular_movies_notifier.da
 import 'package:ditonton/presentation/provider/movies/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/search/movie_search_notifier.dart';
+import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -72,6 +73,8 @@ void init() {
       getTopRatedTvShows: locator(),
     ),
   );
+
+  locator.registerFactory(() => PopularTvShowsNotifier(locator()));
 
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
