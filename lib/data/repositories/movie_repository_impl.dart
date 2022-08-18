@@ -5,6 +5,7 @@ import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/network_info.dart';
 import 'package:ditonton/data/datasources/local/movie_local_data_source.dart';
+import 'package:ditonton/data/datasources/local/watchlist_local_data_source.dart';
 import 'package:ditonton/data/datasources/remote/movie_remote_data_source.dart';
 import 'package:ditonton/data/models/movies/movie_table.dart';
 import 'package:ditonton/data/models/watchlist/watchlist_table.dart';
@@ -15,11 +16,13 @@ import 'package:ditonton/domain/repositories/movie_repository.dart';
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDataSource remoteDataSource;
   final MovieLocalDataSource localDataSource;
+  final WatchlistLocalDataSource wLocalDataSource;
   final NetworkInfo networkInfo;
 
   MovieRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
+    required this.wLocalDataSource,
     required this.networkInfo,
   });
 
@@ -127,7 +130,7 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<Either<Failure, String>> saveWatchlist(MovieDetail movie) async {
     try {
       final result =
-          await localDataSource.insertWatchlist(WatchlistTable.fromMovieEntity(movie));
+          await wLocalDataSource.insertWatchlist(WatchlistTable.fromMovieEntity(movie));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -140,7 +143,7 @@ class MovieRepositoryImpl implements MovieRepository {
   Future<Either<Failure, String>> removeWatchlist(MovieDetail movie) async {
     try {
       final result =
-          await localDataSource.removeWatchlist(WatchlistTable.fromMovieEntity(movie));
+          await wLocalDataSource.removeWatchlist(WatchlistTable.fromMovieEntity(movie));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -149,13 +152,13 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<bool> isAddedToWatchlist(int id) async {
-    final result = await localDataSource.getMovieById(id);
+    final result = await wLocalDataSource.getMovieById(id);
     return result != null;
   }
 
   @override
   Future<Either<Failure, List<Movie>>> getWatchlistMovies() async {
-    final result = await localDataSource.getWatchlistMovies();
+    final result = await wLocalDataSource.getWatchlistMovies();
     return Right(result.map((data) => data.toMovieEntity()).toList());
   }
 }

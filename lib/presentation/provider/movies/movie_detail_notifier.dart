@@ -15,7 +15,7 @@ class MovieDetailNotifier extends ChangeNotifier {
 
   final GetMovieDetail getMovieDetail;
   final GetMovieRecommendations getMovieRecommendations;
-  final GetWatchListStatus getWatchListStatus;
+  final GetMovieWatchListStatus getWatchListStatus;
   final SaveWatchlist saveWatchlist;
   final RemoveWatchlist removeWatchlist;
 
@@ -110,7 +110,7 @@ class MovieDetailNotifier extends ChangeNotifier {
   }
 
   Future<void> loadWatchlistStatus(int id) async {
-    final result = await getWatchListStatus.execute(id);
+    final result = await getWatchListStatus.execute(id, true);
     _isAddedtoWatchlist = result;
     notifyListeners();
   }

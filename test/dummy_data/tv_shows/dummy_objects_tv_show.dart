@@ -12,14 +12,6 @@ final testTvShowCache = TvShowTable(
   title: "Scoop",
 );
 
-final testMovieCacheMap = {
-  'id': 557,
-  'overview':
-      'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
-  'posterPath': '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
-  'title': 'Spider-Man',
-};
-
 final testTvShowCacheMap = {
   'id': 203599,
   'overview':
@@ -36,12 +28,11 @@ final testTvShowFromCache = TvShow.watchlist(
   name: "Scoop",
 );
 
-final testWatchlistMovieTable = WatchlistTable(
+final testWatchlistTvShow = TvShow.watchlist(
   id: 1,
-  title: 'title',
+  name: 'title',
   posterPath: 'posterPath',
   overview: 'overview',
-  type: 1,
 );
 
 final testWatchlistTvShowTable = WatchlistTable(
@@ -49,10 +40,10 @@ final testWatchlistTvShowTable = WatchlistTable(
   title: 'title',
   posterPath: 'posterPath',
   overview: 'overview',
-  type: 2,
+  type: 1,
 );
 
-final testMovieMap = {
+final testTvShowMap = {
   'id': 1,
   'overview': 'overview',
   'posterPath': 'posterPath',
@@ -91,7 +82,7 @@ final testTvShowDetail = TvShowDetail(
       stillPath: "stillPath",
       voteAverage: 1,
       voteCount: 1),
-  name: "name",
+  name: "title",
   nextEpisodeToAir: Episode(
       airDate: DateTime(2020, 12, 31),
       episodeNumber: 5,

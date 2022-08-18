@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:ditonton/common/failure.dart';
+import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/usecases/movies/get_movie_detail.dart';
 import 'package:ditonton/domain/usecases/movies/get_movie_recommendations.dart';
-import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/domain/usecases/watchlists/get_watchlist_status.dart';
 import 'package:ditonton/domain/usecases/watchlists/remove_watchlist.dart';
 import 'package:ditonton/domain/usecases/watchlists/save_watchlist.dart';
 import 'package:ditonton/presentation/provider/movies/movie_detail_notifier.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -18,7 +18,7 @@ import 'movie_detail_notifier_test.mocks.dart';
 @GenerateMocks([
   GetMovieDetail,
   GetMovieRecommendations,
-  GetWatchListStatus,
+  GetMovieWatchListStatus,
   SaveWatchlist,
   RemoveWatchlist,
 ])
@@ -26,7 +26,7 @@ void main() {
   late MovieDetailNotifier provider;
   late MockGetMovieDetail mockGetMovieDetail;
   late MockGetMovieRecommendations mockGetMovieRecommendations;
-  late MockGetWatchListStatus mockGetWatchlistStatus;
+  late MockGetMovieWatchListStatus mockGetWatchlistStatus;
   late MockSaveWatchlist mockSaveWatchlist;
   late MockRemoveWatchlist mockRemoveWatchlist;
   late int listenerCallCount;
@@ -35,7 +35,7 @@ void main() {
     listenerCallCount = 0;
     mockGetMovieDetail = MockGetMovieDetail();
     mockGetMovieRecommendations = MockGetMovieRecommendations();
-    mockGetWatchlistStatus = MockGetWatchListStatus();
+    mockGetWatchlistStatus = MockGetMovieWatchListStatus();
     mockSaveWatchlist = MockSaveWatchlist();
     mockRemoveWatchlist = MockRemoveWatchlist();
     provider = MovieDetailNotifier(
@@ -158,7 +158,7 @@ void main() {
   group('Watchlist', () {
     test('should get the watchlists status', () async {
       // arrange
-      when(mockGetWatchlistStatus.execute(1)).thenAnswer((_) async => true);
+      when(mockGetWatchlistStatus.execute(1, true)).thenAnswer((_) async => true);
       // act
       await provider.loadWatchlistStatus(1);
       // assert
@@ -169,7 +169,7 @@ void main() {
       // arrange
       when(mockSaveWatchlist.execute(testMovieDetail))
           .thenAnswer((_) async => Right('Success'));
-      when(mockGetWatchlistStatus.execute(testMovieDetail.id))
+      when(mockGetWatchlistStatus.execute(testMovieDetail.id, true))
           .thenAnswer((_) async => true);
       // act
       await provider.addWatchlist(testMovieDetail);
@@ -181,7 +181,7 @@ void main() {
       // arrange
       when(mockRemoveWatchlist.execute(testMovieDetail))
           .thenAnswer((_) async => Right('Removed'));
-      when(mockGetWatchlistStatus.execute(testMovieDetail.id))
+      when(mockGetWatchlistStatus.execute(testMovieDetail.id, true))
           .thenAnswer((_) async => false);
       // act
       await provider.removeFromWatchlist(testMovieDetail);
@@ -193,12 +193,12 @@ void main() {
       // arrange
       when(mockSaveWatchlist.execute(testMovieDetail))
           .thenAnswer((_) async => Right('Added to Watchlist'));
-      when(mockGetWatchlistStatus.execute(testMovieDetail.id))
+      when(mockGetWatchlistStatus.execute(testMovieDetail.id, true))
           .thenAnswer((_) async => true);
       // act
       await provider.addWatchlist(testMovieDetail);
       // assert
-      verify(mockGetWatchlistStatus.execute(testMovieDetail.id));
+      verify(mockGetWatchlistStatus.execute(testMovieDetail.id, true));
       expect(provider.isAddedToWatchlist, true);
       expect(provider.watchlistMessage, 'Added to Watchlist');
       expect(listenerCallCount, 1);
@@ -208,7 +208,7 @@ void main() {
       // arrange
       when(mockSaveWatchlist.execute(testMovieDetail))
           .thenAnswer((_) async => Left(DatabaseFailure('Failed')));
-      when(mockGetWatchlistStatus.execute(testMovieDetail.id))
+      when(mockGetWatchlistStatus.execute(testMovieDetail.id, true))
           .thenAnswer((_) async => false);
       // act
       await provider.addWatchlist(testMovieDetail);

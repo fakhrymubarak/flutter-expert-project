@@ -10,4 +10,9 @@ abstract class TvShowRepository {
 
   Future<Either<Failure, TvShowDetail>> getTvShowDetail(int id);
   Future<Either<Failure, List<TvShow>>> getTvShowRecommendations(int id);
+
+  Future<Either<Failure, String>> saveWatchlist(TvShowDetail tvShow);
+  Future<Either<Failure, String>> removeWatchlist(TvShowDetail tvShow);
+  Future<bool> isAddedToWatchlist(int id);
+  Future<Either<Failure, List<TvShow>>> getWatchlistTvShow();
 }
