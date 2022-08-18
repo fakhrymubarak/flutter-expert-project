@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
@@ -6,6 +8,7 @@ import 'package:ditonton/data/datasources/local/tv_show_local_data_source.dart';
 import 'package:ditonton/data/datasources/remote/tv_show_remote_data_source.dart';
 import 'package:ditonton/data/models/tv_shows/tv_show_table.dart';
 import 'package:ditonton/domain/entities/tv_show.dart';
+import 'package:ditonton/domain/entities/tv_show_detail.dart';
 import 'package:ditonton/domain/repositories/tv_shows_repository.dart';
 
 class TvShowRepositoryImpl implements TvShowRepository {
@@ -76,6 +79,30 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on CacheException catch (e) {
       return Left(CacheFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TvShowDetail>> getTvShowDetail(int id) async {
+    try {
+      final result = await remoteDataSource.getTvShowDetail(id);
+      return Right(result.toEntity());
+    } on ServerException {
+      return Left(ServerFailure(''));
+    } on SocketException {
+      return Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TvShow>>> getTvShowRecommendations(int id) async {
+    try {
+      final result = await remoteDataSource.getTvShowRecommendations(id);
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException {
+      return Left(ServerFailure(''));
+    } on SocketException {
+      return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
 }

@@ -1,0 +1,29 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/1qpUk27LVI9UoTS7S0EixUBj5aR.jpg",
+      "id": 52814,
+      "name": "Halo",
+      "original_language": "en",
+      "original_name": "Halo",
+      "overview": "Depicting an epic 26th-century conflict between humanity and an alien threat known as the Covenant, the series weaves deeply drawn personal stories with action, adventure and a richly imagined vision of the future.",
+      "poster_path": "/nJUHX3XL1jMkk8honUZnUmudFb9.jpg",
+      "media_type": "tv",
+      "genre_ids": [
+        10759,
+        10765
+      ],
+      "popularity": 729.433,
+      "first_air_date": "2022-03-24",
+      "vote_average": 8.535,
+      "vote_count": 1203,
+      "origin_country": [
+        "US"
+      ]
+    }
+  ],
+  "total_pages": 2,
+  "total_results": 40
+}
