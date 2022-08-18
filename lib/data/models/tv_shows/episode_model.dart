@@ -17,18 +17,18 @@ class EpisodeModel extends Equatable {
     required this.voteCount,
   });
 
-  final DateTime airDate;
-  final int episodeNumber;
+  final DateTime? airDate;
+  final int? episodeNumber;
   final int id;
-  final String name;
-  final String overview;
-  final String productionCode;
-  final int runtime;
-  final int seasonNumber;
-  final int showId;
-  final String stillPath;
-  final double voteAverage;
-  final int voteCount;
+  final String? name;
+  final String? overview;
+  final String? productionCode;
+  final int? runtime;
+  final int? seasonNumber;
+  final int? showId;
+  final String? stillPath;
+  final double? voteAverage;
+  final int? voteCount;
 
   factory EpisodeModel.fromJson(Map<String, dynamic> json) => EpisodeModel(
         airDate: DateTime.parse(json["air_date"]),
@@ -47,7 +47,7 @@ class EpisodeModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "air_date":
-            "${airDate.year.toString().padLeft(4, '0')}-${airDate.month.toString().padLeft(2, '0')}-${airDate.day.toString().padLeft(2, '0')}",
+            "${airDate?.year.toString().padLeft(4, '0')}-${airDate?.month.toString().padLeft(2, '0')}-${airDate?.day.toString().padLeft(2, '0')}",
         "episode_number": episodeNumber,
         "id": id,
         "name": name,
@@ -78,17 +78,17 @@ class EpisodeModel extends Equatable {
       ];
 
   Episode toEntity() => Episode(
-        airDate: airDate,
-        episodeNumber: episodeNumber,
+        airDate: airDate ?? DateTime(2000, 01, 01),
+        episodeNumber: episodeNumber ?? 0,
         id: id,
-        name: name,
-        overview: overview,
-        productionCode: productionCode,
-        runtime: runtime,
-        seasonNumber: seasonNumber,
-        showId: showId,
-        stillPath: stillPath,
-        voteAverage: voteAverage,
-        voteCount: voteCount,
+        name: name ?? "",
+        overview: overview ?? "",
+        productionCode: productionCode ?? "",
+        runtime: runtime ?? 0,
+        seasonNumber: seasonNumber ?? 0,
+        showId: showId ?? 0,
+        stillPath: stillPath ?? "",
+        voteAverage: voteAverage ?? 0,
+        voteCount: voteCount ?? 0,
       );
 }

@@ -42,8 +42,8 @@ class TvShowDetailNotifier extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  bool _isAddedtoWatchlist = false;
-  bool get isAddedToWatchlist => _isAddedtoWatchlist;
+  bool _isAddedToWatchlist = false;
+  bool get isAddedToWatchlist => _isAddedToWatchlist;
 
   Future<void> fetchTvShowDetail(int id) async {
     _tvShowState = RequestState.Loading;
@@ -111,7 +111,7 @@ class TvShowDetailNotifier extends ChangeNotifier {
 
   Future<void> loadWatchlistStatus(int id) async {
     final result = await getWatchListStatus.execute(id, false);
-    _isAddedtoWatchlist = result;
+    _isAddedToWatchlist = result;
     notifyListeners();
   }
 }

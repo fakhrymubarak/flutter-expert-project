@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/pages/movies/movie_detail_page.dart';
+import 'package:ditonton/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
@@ -25,7 +26,7 @@ class ItemCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            (isMovie) ? MovieDetailPage.ROUTE_NAME : "gototvShow",
+            (isMovie) ? MovieDetailPage.ROUTE_NAME : TvShowDetailPage.ROUTE_NAME,
             arguments: this.id,
           );
         },

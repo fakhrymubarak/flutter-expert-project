@@ -10,9 +10,9 @@ class NetworkModel extends Equatable {
   });
 
   final int id;
-  final String name;
-  final String logoPath;
-  final String originCountry;
+  final String? name;
+  final String? logoPath;
+  final String? originCountry;
 
   factory NetworkModel.fromJson(Map<String, dynamic> json) => NetworkModel(
         id: json["id"],
@@ -38,8 +38,8 @@ class NetworkModel extends Equatable {
 
   Network toEntity() => Network(
         id: id,
-        name: name,
-        logoPath: logoPath,
-        originCountry: originCountry,
+        name: name ?? "",
+        logoPath: logoPath ?? "",
+        originCountry: originCountry ?? "",
       );
 }

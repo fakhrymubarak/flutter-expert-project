@@ -12,16 +12,17 @@ class SeasonModel extends Equatable {
     required this.seasonNumber,
   });
 
-  final DateTime airDate;
-  final int episodeCount;
+  final DateTime? airDate;
+  final int? episodeCount;
   final int id;
-  final String name;
-  final String overview;
-  final String posterPath;
-  final int seasonNumber;
+  final String? name;
+  final String? overview;
+  final String? posterPath;
+  final int? seasonNumber;
 
   factory SeasonModel.fromJson(Map<String, dynamic> json) => SeasonModel(
-        airDate: DateTime.parse(json["air_date"]),
+        airDate:
+            json["air_date"] != null ? DateTime.parse(json["air_date"]) : null,
         episodeCount: json["episode_count"],
         id: json["id"],
         name: json["name"],
@@ -32,7 +33,7 @@ class SeasonModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "air_date":
-            "${airDate.year.toString().padLeft(4, '0')}-${airDate.month.toString().padLeft(2, '0')}-${airDate.day.toString().padLeft(2, '0')}",
+            "${airDate?.year.toString().padLeft(4, '0')}-${airDate?.month.toString().padLeft(2, '0')}-${airDate?.day.toString().padLeft(2, '0')}",
         "episode_count": episodeCount,
         "id": id,
         "name": name,
@@ -53,11 +54,11 @@ class SeasonModel extends Equatable {
       ];
 
   Season toEntity() => Season(
-      airDate: airDate,
-      episodeCount: episodeCount,
+      airDate: airDate ?? DateTime(2000, 01, 01),
+      episodeCount: episodeCount ?? 0,
       id: id,
-      name: name,
-      overview: overview,
-      posterPath: posterPath,
-      seasonNumber: seasonNumber);
+      name: name ?? "",
+      overview: overview ?? "",
+      posterPath: posterPath ?? "",
+      seasonNumber: seasonNumber ?? 0);
 }

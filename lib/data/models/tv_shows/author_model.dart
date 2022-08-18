@@ -11,10 +11,10 @@ class AuthorModel extends Equatable {
   });
 
   final int id;
-  final String creditId;
-  final String name;
-  final int gender;
-  final String profilePath;
+  final String? creditId;
+  final String? name;
+  final int? gender;
+  final String? profilePath;
 
   factory AuthorModel.fromJson(Map<String, dynamic> json) => AuthorModel(
         id: json["id"],
@@ -43,9 +43,9 @@ class AuthorModel extends Equatable {
 
   Author toEntity() => Author(
         id: id,
-        creditId: creditId,
-        name: name,
-        gender: gender,
-        profilePath: profilePath,
+        creditId: creditId ?? "",
+        name: name ?? "",
+        gender: gender ?? 0,
+        profilePath: profilePath ?? "",
       );
 }

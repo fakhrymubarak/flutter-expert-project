@@ -41,7 +41,8 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY,
         title TEXT,
         overview TEXT,
-        posterPath TEXT
+        posterPath TEXT,
+        type INTEGER
       );
     ''');
 
@@ -66,26 +67,16 @@ class DatabaseHelper {
     ''');
   }
 
+  // movies
   Future<void> insertCacheMovieTransaction(
       List<MovieTable> movies, String category) async {
     final db = await database;
-    db!.transaction((txn) async {
+    db!.transaction((dbTransact) async {
       for (final movie in movies) {
         final movieJson = movie.toJson();
         movieJson['category'] = category;
-        txn.insert(_tblCacheMovie, movieJson);
-      }
-    });
-  }
-
-  Future<void> insertCacheTvShowTransaction(
-      List<TvShowTable> tvShows, String category) async {
-    final db = await database;
-    db!.transaction((txn) async {
-      for (final tvShow in tvShows) {
-        final tvShowJson = tvShow.toJson();
-        tvShowJson['category'] = category;
-        txn.insert(_tblCacheTvShow, tvShowJson);
+        dbTransact.insert(_tblCacheMovie, movieJson,
+            conflictAlgorithm: ConflictAlgorithm.replace);
       }
     });
   }
@@ -94,18 +85,7 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(
       _tblCacheMovie,
-      where: 'category = ?',
-      whereArgs: [category],
-    );
-
-    return results;
-  }
-
-  Future<List<Map<String, dynamic>>> getCachesTvShow(String category) async {
-    final db = await database;
-    final List<Map<String, dynamic>> results = await db!.query(
-      _tblCacheTvShow,
-      where: 'category = ?',
+      where: 'category=?',
       whereArgs: [category],
     );
 
@@ -116,16 +96,41 @@ class DatabaseHelper {
     final db = await database;
     return await db!.delete(
       _tblCacheMovie,
-      where: 'category = ?',
+      where: 'category=?',
       whereArgs: [category],
     );
+  }
+
+  // tv shows
+  Future<void> insertCacheTvShowTransaction(
+      List<TvShowTable> tvShows, String category) async {
+    final db = await database;
+    db!.transaction((dbTransact) async {
+      for (final tvShow in tvShows) {
+        final tvShowJson = tvShow.toJson();
+        tvShowJson['category'] = category;
+        dbTransact.insert(_tblCacheTvShow, tvShowJson,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> getCachesTvShow(String category) async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db!.query(
+      _tblCacheTvShow,
+      where: 'category=?',
+      whereArgs: [category],
+    );
+
+    return results;
   }
 
   Future<int> clearCacheTvShow(String category) async {
     final db = await database;
     return await db!.delete(
       _tblCacheTvShow,
-      where: 'category = ?',
+      where: 'category=?',
       whereArgs: [category],
     );
   }
@@ -133,14 +138,15 @@ class DatabaseHelper {
   // watchlist
   Future<int> insertWatchlist(WatchlistTable watchlist) async {
     final db = await database;
-    return await db!.insert(_tblWatchlist, watchlist.toJson());
+    return await db!.insert(_tblWatchlist, watchlist.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<int> removeWatchlist(WatchlistTable watchlist) async {
     final db = await database;
     return await db!.delete(
       _tblWatchlist,
-      where: 'id = ?',
+      where: 'id=?',
       whereArgs: [watchlist.id],
     );
   }
@@ -149,7 +155,7 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist,
-      where: 'id = ? && type = ?',
+      where: 'id=? AND type=?',
       whereArgs: [id, 1],
     );
 
@@ -164,7 +170,7 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist,
-      where: 'id = ? && type = ?',
+      where: 'id=? AND type=?',
       whereArgs: [id, 2],
     );
 
@@ -179,7 +185,7 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(
       _tblWatchlist,
-      where: 'type = ?',
+      where: 'type=?',
       whereArgs: [1],
     );
 
@@ -190,7 +196,7 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(
       _tblWatchlist,
-      where: 'type = ?',
+      where: 'type=?',
       whereArgs: [2],
     );
 

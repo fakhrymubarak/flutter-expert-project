@@ -23,8 +23,11 @@ import 'package:ditonton/domain/usecases/tv_shows/get_top_rated_tv_shows.dart';
 import 'package:ditonton/domain/usecases/tv_shows/get_tv_show_detail.dart';
 import 'package:ditonton/domain/usecases/watchlists/get_watchlist_movies.dart';
 import 'package:ditonton/domain/usecases/watchlists/get_watchlist_status.dart';
+import 'package:ditonton/domain/usecases/watchlists/get_watchlist_tv_shows.dart';
 import 'package:ditonton/domain/usecases/watchlists/remove_movie_watchlist.dart';
+import 'package:ditonton/domain/usecases/watchlists/remove_tv_show_watchlist.dart';
 import 'package:ditonton/domain/usecases/watchlists/save_movie_watchlist.dart';
+import 'package:ditonton/domain/usecases/watchlists/save_tv_show_watchlist.dart';
 import 'package:ditonton/presentation/provider/movies/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/popular_movies_notifier.dart';
@@ -32,6 +35,7 @@ import 'package:ditonton/presentation/provider/movies/top_rated_movies_notifier.
 import 'package:ditonton/presentation/provider/movies/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/search/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
+import 'package:ditonton/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -56,18 +60,12 @@ void init() {
       removeWatchlist: locator(),
     ),
   );
+  locator.registerFactory(() => MovieSearchNotifier(searchMovies: locator()));
+  locator.registerFactory(() => PopularMoviesNotifier(locator()));
   locator.registerFactory(
-    () => MovieSearchNotifier(searchMovies: locator())
-  );
+      () => TopRatedMoviesNotifier(getTopRatedMovies: locator()));
   locator.registerFactory(
-    () => PopularMoviesNotifier(locator())
-  );
-  locator.registerFactory(
-    () => TopRatedMoviesNotifier(getTopRatedMovies: locator())
-  );
-  locator.registerFactory(
-    () => WatchlistMovieNotifier(getWatchlistMovies: locator())
-  );
+      () => WatchlistMovieNotifier(getWatchlistMovies: locator()));
 
   locator.registerFactory(
     () => TvShowListNotifier(
@@ -76,8 +74,14 @@ void init() {
       getTopRatedTvShows: locator(),
     ),
   );
-
   locator.registerFactory(() => PopularTvShowsNotifier(locator()));
+  locator.registerFactory(() => TvShowDetailNotifier(
+        getTvShowDetail: locator(),
+        getTvShowRecommendations: locator(),
+        getWatchListStatus: locator(),
+        saveWatchlist: locator(),
+        removeWatchlist: locator(),
+      ));
 
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
@@ -86,10 +90,16 @@ void init() {
   locator.registerLazySingleton(() => GetMovieDetail(locator()));
   locator.registerLazySingleton(() => GetMovieRecommendations(locator()));
   locator.registerLazySingleton(() => SearchMovies(locator()));
+
   locator.registerLazySingleton(() => GetWatchListStatus(locator(), locator()));
+
   locator.registerLazySingleton(() => SaveMovieWatchlist(locator()));
   locator.registerLazySingleton(() => RemoveMovieWatchlist(locator()));
   locator.registerLazySingleton(() => GetWatchlistMovies(locator()));
+
+  locator.registerLazySingleton(() => SaveTvShowWatchlist(locator()));
+  locator.registerLazySingleton(() => RemoveTvShowWatchlist(locator()));
+  locator.registerLazySingleton(() => GetWatchlistTvShow(locator()));
 
   locator.registerLazySingleton(() => GetOnAirTvShows(locator()));
   locator.registerLazySingleton(() => GetPopularTvShows(locator()));

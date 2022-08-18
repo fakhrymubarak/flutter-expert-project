@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_show.dart';
-import 'package:ditonton/presentation/pages/movies/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/movies/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/search/search_page.dart';
 import 'package:ditonton/presentation/pages/tv_shows/popular_tv_show_page.dart';
+import 'package:ditonton/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -149,7 +149,7 @@ class TvShowList extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  MovieDetailPage.ROUTE_NAME,
+                  TvShowDetailPage.ROUTE_NAME,
                   arguments: tvShow.id,
                 );
               },
