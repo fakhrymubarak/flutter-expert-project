@@ -116,42 +116,6 @@ class TvShowDetailResponse extends Equatable {
         voteCount: json["vote_count"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "adult": adult,
-        "backdrop_path": backdropPath,
-        "created_by": createdBy?.map((x) => x.toJson()).toList(),
-        "episode_run_time": episodeRunTime?.map((x) => x).toList(),
-        "first_air_date":
-            "${firstAirDate?.year.toString().padLeft(4, '0')}-${firstAirDate?.month.toString().padLeft(2, '0')}-${firstAirDate?.day.toString().padLeft(2, '0')}",
-        "genres": genres.map((x) => x.toJson()).toList(),
-        "homepage": homepage,
-        "id": id,
-        "in_production": inProduction,
-        "languages": languages?.map((x) => x).toList(),
-        "last_air_date":
-            "${lastAirDate?.year.toString().padLeft(4, '0')}-${lastAirDate?.month.toString().padLeft(2, '0')}-${lastAirDate?.day.toString().padLeft(2, '0')}",
-        "last_episode_to_air": lastEpisodeToAir?.toJson(),
-        "name": name,
-        "next_episode_to_air": nextEpisodeToAir?.toJson(),
-        "networks": networks?.map((x) => x.toJson()).toList(),
-        "number_of_episodes": numberOfEpisodes,
-        "number_of_seasons": numberOfSeasons,
-        "origin_country": originCountry?.map((x) => x).toList(),
-        "original_language": originalLanguage,
-        "original_name": originalName,
-        "overview": overview,
-        "popularity": popularity,
-        "poster_path": posterPath,
-        "production_companies":
-            productionCompanies?.map((x) => x.toJson()).toList(),
-        "seasons": seasons?.map((x) => x.toJson()).toList(),
-        "status": status,
-        "tagline": tagline,
-        "type": type,
-        "vote_average": voteAverage,
-        "vote_count": voteCount,
-      };
-
   @override
   List<Object?> get props => [
         adult,

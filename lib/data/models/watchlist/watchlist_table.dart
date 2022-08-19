@@ -1,4 +1,3 @@
-import 'package:ditonton/data/models/movies/movie_model.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/domain/entities/tv_show.dart';
@@ -37,14 +36,6 @@ class WatchlistTable extends Equatable {
         posterPath: map['posterPath'],
         overview: map['overview'],
         type: map['type'],
-      );
-
-  factory WatchlistTable.fromMovieDTO(MovieModel movie) => WatchlistTable(
-        id: movie.id,
-        title: movie.title,
-        posterPath: movie.posterPath,
-        overview: movie.overview,
-        type: 1,
       );
 
   Map<String, dynamic> toJson() => {

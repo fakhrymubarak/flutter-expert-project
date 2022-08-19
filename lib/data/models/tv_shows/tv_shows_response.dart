@@ -1,10 +1,4 @@
-import 'dart:convert';
-
 import 'package:ditonton/data/models/tv_shows/tv_shows_model.dart';
-
-TvShowsResponse tvShowsResponseFromJson(String str) => TvShowsResponse.fromJson(json.decode(str));
-
-String tvShowsResponseToJson(TvShowsResponse data) => json.encode(data.toJson());
 
 class TvShowsResponse {
   TvShowsResponse({
@@ -26,10 +20,4 @@ class TvShowsResponse {
     totalResults: json["total_results"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "page": page,
-    "results": List<dynamic>.from(tvShowModel.map((x) => x.toJson())),
-    "total_pages": totalPages,
-    "total_results": totalResults,
-  };
 }

@@ -1,7 +1,6 @@
 import 'package:ditonton/data/models/tv_shows/tv_shows_model.dart';
-import 'package:equatable/equatable.dart';
 
-class TvShowRecommendationsResponse extends Equatable{
+class TvShowRecommendationsResponse{
   TvShowRecommendationsResponse({
     required this.page,
     required this.results,
@@ -20,19 +19,4 @@ class TvShowRecommendationsResponse extends Equatable{
     totalPages: json["total_pages"],
     totalResults: json["total_results"],
   );
-
-  Map<String, dynamic> toJson() => {
-    "page": page,
-    "results": List<dynamic>.from(results.map((x) => x.toJson())),
-    "total_pages": totalPages,
-    "total_results": totalResults,
-  };
-
-  @override
-  List<Object?> get props => [
-    page,
-    results,
-    totalPages,
-    totalResults,
-  ];
 }

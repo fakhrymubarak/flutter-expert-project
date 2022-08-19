@@ -21,13 +21,6 @@ class NetworkModel extends Equatable {
         originCountry: json["origin_country"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "logo_path": logoPath,
-        "origin_country": originCountry,
-      };
-
   @override
   List<Object?> get props => [
         id,
