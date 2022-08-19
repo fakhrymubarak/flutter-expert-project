@@ -113,8 +113,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
   @override
   Future<Either<Failure, String>> saveWatchlist(TvShowDetail tvShow) async {
     try {
-      final result =
-      await wLocalDataSource.insertWatchlist(WatchlistTable.fromTvShowEntity(tvShow));
+      final result = await wLocalDataSource
+          .insertWatchlist(WatchlistTable.fromTvShowEntity(tvShow));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -126,8 +126,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
   @override
   Future<Either<Failure, String>> removeWatchlist(TvShowDetail tvShow) async {
     try {
-      final result =
-      await wLocalDataSource.removeWatchlist(WatchlistTable.fromTvShowEntity(tvShow));
+      final result = await wLocalDataSource
+          .removeWatchlist(WatchlistTable.fromTvShowEntity(tvShow));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -144,5 +144,17 @@ class TvShowRepositoryImpl implements TvShowRepository {
   Future<Either<Failure, List<TvShow>>> getWatchlistTvShow() async {
     final result = await wLocalDataSource.getWatchlistTvShow();
     return Right(result.map((data) => data.toTvShowEntity()).toList());
+  }
+
+  @override
+  Future<Either<Failure, List<TvShow>>> searchTvShows(String query) async {
+    try {
+      final result = await remoteDataSource.searchTvShows(query);
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException {
+      return Left(ServerFailure(''));
+    } on SocketException {
+      return Left(ConnectionFailure('Failed to connect to the network'));
+    }
   }
 }

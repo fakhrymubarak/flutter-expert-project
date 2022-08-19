@@ -571,4 +571,46 @@ void main() {
       expect(resultList, [testWatchlistTvShow]);
     });
   });
+
+  group('Search TvShows', () {
+    final tQuery = 'moon knight';
+
+    test('should return movie list when call to data source is successful',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.searchTvShows(tQuery))
+              .thenAnswer((_) async => tTvShowModelList);
+          // act
+          final result = await repository.searchTvShows(tQuery);
+          // assert
+          /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+          final resultList = result.getOrElse(() => []);
+          expect(resultList, tTvShowList);
+        });
+
+    test('should return ServerFailure when call to data source is unsuccessful',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.searchTvShows(tQuery))
+              .thenThrow(ServerException());
+          // act
+          final result = await repository.searchTvShows(tQuery);
+          // assert
+          expect(result, Left(ServerFailure('')));
+        });
+
+    test(
+        'should return ConnectionFailure when device is not connected to the internet',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.searchTvShows(tQuery))
+              .thenThrow(SocketException('Failed to connect to the network'));
+          // act
+          final result = await repository.searchTvShows(tQuery);
+          // assert
+          expect(
+              result, Left(ConnectionFailure('Failed to connect to the network')));
+        });
+  });
+
 }

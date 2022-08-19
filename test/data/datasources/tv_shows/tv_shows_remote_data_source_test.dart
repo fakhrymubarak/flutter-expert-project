@@ -145,7 +145,7 @@ void main() {
   });
 
   group('get tv show recommendations', () {
-    final tMovieList = TvShowRecommendationsResponse.fromJson(json.decode(
+    final tTvShowList = TvShowRecommendationsResponse.fromJson(json.decode(
             readJson('dummy_data/tv_shows/tv_shows_recommendation.json')))
         .results;
     final tId = 92749;
@@ -161,7 +161,7 @@ void main() {
       // act
       final result = await dataSource.getTvShowRecommendations(tId);
       // assert
-      expect(result, equals(tMovieList));
+      expect(result, equals(tTvShowList));
     });
 
     test('should throw Server Exception when the response code is 404 or other',
@@ -175,5 +175,36 @@ void main() {
       // assert
       expect(() => call, throwsA(isA<ServerException>()));
     });
+  });
+
+  group('search Tv Shows', () {
+    final tSearchResult = TvShowsResponse.fromJson(
+        json.decode(readJson('dummy_data/search/search_moon_knight_tv_show.json')))
+        .tvShowModel;
+    final tQuery = 'moon knight';
+
+    test('should return list of tvShow when response code is 200', () async {
+      // arrange
+      when(mockHttpClient
+          .get(Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery')))
+          .thenAnswer((_) async => http.Response(
+          readJson('dummy_data/search/search_moon_knight_tv_show.json'), 200));
+      // act
+      final result = await dataSource.searchTvShows(tQuery);
+      // assert
+      expect(result, tSearchResult);
+    });
+
+    test('should throw ServerException when response code is other than 200',
+            () async {
+          // arrange
+          when(mockHttpClient
+              .get(Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery')))
+              .thenAnswer((_) async => http.Response('Not Found', 404));
+          // act
+          final call = dataSource.searchTvShows(tQuery);
+          // assert
+          expect(() => call, throwsA(isA<ServerException>()));
+        });
   });
 }

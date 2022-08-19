@@ -1,18 +1,18 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/search/movie_search_notifier.dart';
+import 'package:ditonton/presentation/provider/search/tv_show_search_notifier.dart';
 import 'package:ditonton/presentation/widgets/item_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SearchPage extends StatelessWidget {
-  static const ROUTE_NAME = '/search';
+class SearchTvShowPage extends StatelessWidget {
+  static const ROUTE_NAME = '/search-tv-show';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: Text('Search Tv Shows'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -21,8 +21,8 @@ class SearchPage extends StatelessWidget {
           children: [
             TextField(
               onSubmitted: (query) {
-                Provider.of<MovieSearchNotifier>(context, listen: false)
-                    .fetchMovieSearch(query);
+                Provider.of<TvShowSearchNotifier>(context, listen: false)
+                    .fetchTvShowSearch(query);
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -36,7 +36,7 @@ class SearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<MovieSearchNotifier>(
+            Consumer<TvShowSearchNotifier>(
               builder: (context, data, child) {
                 if (data.state == RequestState.Loading) {
                   return Center(
@@ -48,13 +48,13 @@ class SearchPage extends StatelessWidget {
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final movie = data.searchResult[index];
+                        final tvShow = data.searchResult[index];
                         return ItemCard(
-                          id: movie.id,
-                          title: movie.title ?? "-",
-                          overview: movie.overview ?? "-",
-                          posterPath: movie.posterPath ?? "",
-                          isMovie: true,
+                          id: tvShow.id,
+                          title: tvShow.name ?? "-",
+                          overview: tvShow.overview ?? "-",
+                          posterPath: tvShow.posterPath ?? "",
+                          isMovie: false,
                         );
                       },
                       itemCount: result.length,
