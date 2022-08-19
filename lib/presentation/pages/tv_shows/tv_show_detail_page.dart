@@ -157,7 +157,11 @@ class DetailContent extends StatelessWidget {
                               _showGenres(tvShow.genres),
                             ),
                             Text(
-                              _showDuration(tvShow.episodeRunTime?.reduce((a, b) => a + b) ?? 0),
+                              _showDuration((tvShow.episodeRunTime != null &&
+                                      tvShow.episodeRunTime!.isNotEmpty)
+                                  ? tvShow.episodeRunTime!
+                                      .reduce((a, b) => a + b)
+                                  : 0),
                             ),
                             Row(
                               children: [
@@ -181,67 +185,15 @@ class DetailContent extends StatelessWidget {
                             Text(
                               tvShow.overview,
                             ),
+                            (tvShow.seasons != null &&
+                                    tvShow.seasons!.isNotEmpty)
+                                ? _buildSeasonsSection(tvShow.seasons!)
+                                : SizedBox(),
                             SizedBox(height: 16),
-                            Text(
-                              'Recommendations',
-                              style: kHeading6,
-                            ),
-                            Consumer<TvShowDetailNotifier>(
-                              builder: (context, data, child) {
-                                if (data.recommendationState ==
-                                    RequestState.Loading) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (data.recommendationState ==
-                                    RequestState.Error) {
-                                  return Text(data.message);
-                                } else if (data.recommendationState ==
-                                    RequestState.Loaded) {
-                                  return Container(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final tvShow = recommendations[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                TvShowDetailPage.ROUTE_NAME,
-                                                arguments: tvShow.id,
-                                              );
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: recommendations.length,
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
+                            (recommendations.isNotEmpty)
+                                ? _buildRecommendationsSection()
+                                : SizedBox(),
+                            SizedBox(height: 16),
                           ],
                         ),
                       ),
@@ -303,4 +255,141 @@ class DetailContent extends StatelessWidget {
       return '${minutes}m';
     }
   }
+
+  Widget _buildSeasonsSection(List<Season> seasons) => Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            Text(
+              'Season',
+              style: kHeading6,
+            ),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final season = seasons[index];
+                return Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      child: Card(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            left: 16 + 80 + 16,
+                            bottom: 8,
+                            right: 8,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                season.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: kHeading6,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                season.overview,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        left: 16,
+                        bottom: 16,
+                      ),
+                      child: ClipRRect(
+                        child: CachedNetworkImage(
+                          imageUrl: '$BASE_IMAGE_URL${season.posterPath}',
+                          width: 80,
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              itemCount: seasons.length,
+            ),
+          ],
+        ),
+      );
+
+  Widget _buildRecommendationsSection() => Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            Text(
+              'Recommendations',
+              style: kHeading6,
+            ),
+            Consumer<TvShowDetailNotifier>(
+              builder: (context, data, child) {
+                if (data.recommendationState == RequestState.Loading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (data.recommendationState == RequestState.Error) {
+                  return Text(data.message);
+                } else if (data.recommendationState == RequestState.Loaded) {
+                  return Container(
+                    height: 150,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final tvShow = recommendations[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                TvShowDetailPage.ROUTE_NAME,
+                                arguments: tvShow.id,
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
+                                placeholder: (context, url) => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: recommendations.length,
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
+        ),
+      );
 }

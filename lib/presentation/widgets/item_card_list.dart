@@ -33,29 +33,32 @@ class ItemCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
-            Card(
-              child: Container(
-                margin: const EdgeInsets.only(
-                  left: 16 + 80 + 16,
-                  bottom: 8,
-                  right: 8,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      this.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: kHeading6,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      this.overview,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+            Container(
+              width: double.infinity,
+              child: Card(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: 16 + 80 + 16,
+                    bottom: 8,
+                    right: 8,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        this.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: kHeading6,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        this.overview,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
