@@ -30,14 +30,14 @@ final testTvShowFromCache = TvShow.watchlist(
 
 final testWatchlistTvShow = TvShow.watchlist(
   id: 1,
-  name: 'title',
+  name: 'name',
   posterPath: 'posterPath',
   overview: 'overview',
 );
 
 final testWatchlistTvShowTable = WatchlistTable(
   id: 1,
-  title: 'title',
+  title: 'name',
   posterPath: 'posterPath',
   overview: 'overview',
   type: 1,
@@ -47,7 +47,7 @@ final testTvShowMap = {
   'id': 1,
   'overview': 'overview',
   'posterPath': 'posterPath',
-  'title': 'title',
+  'title': 'name',
 };
 
 final testTvShowDetail = TvShowDetail(
@@ -82,7 +82,7 @@ final testTvShowDetail = TvShowDetail(
       stillPath: "stillPath",
       voteAverage: 1,
       voteCount: 1),
-  name: "title",
+  name: "name",
   nextEpisodeToAir: Episode(
       airDate: DateTime(2020, 12, 31),
       episodeNumber: 5,

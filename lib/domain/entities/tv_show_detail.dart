@@ -67,10 +67,15 @@ class TvShowDetail extends Equatable {
   final int voteCount;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+    id,
+    name,
+    originalName,
+    overview,
+  ];
 }
 
-class Season extends Equatable {
+class Season  {
   Season({
     required this.airDate,
     required this.episodeCount,
@@ -88,20 +93,9 @@ class Season extends Equatable {
   final String overview;
   final String posterPath;
   final int seasonNumber;
-
-  @override
-  List<Object?> get props => [
-        airDate,
-        episodeCount,
-        id,
-        name,
-        overview,
-        posterPath,
-        seasonNumber,
-      ];
 }
 
-class Network extends Equatable {
+class Network  {
   Network({
     required this.id,
     required this.name,
@@ -113,17 +107,9 @@ class Network extends Equatable {
   final String name;
   final String logoPath;
   final String originCountry;
-
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        logoPath,
-        originCountry,
-      ];
 }
 
-class Episode extends Equatable {
+class Episode  {
   Episode({
     required this.airDate,
     required this.episodeNumber,
@@ -151,25 +137,9 @@ class Episode extends Equatable {
   final String stillPath;
   final double voteAverage;
   final int voteCount;
-
-  @override
-  List<Object?> get props => [
-        airDate,
-        episodeNumber,
-        id,
-        name,
-        overview,
-        productionCode,
-        runtime,
-        seasonNumber,
-        showId,
-        stillPath,
-        voteAverage,
-        voteCount,
-      ];
 }
 
-class Author extends Equatable {
+class Author  {
   Author({
     required this.id,
     required this.creditId,
@@ -183,13 +153,4 @@ class Author extends Equatable {
   final String name;
   final int gender;
   final String profilePath;
-
-  @override
-  List<Object?> get props => [
-        this.id,
-        this.creditId,
-        this.name,
-        this.gender,
-        this.profilePath,
-      ];
 }
