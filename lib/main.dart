@@ -12,6 +12,7 @@ import 'package:ditonton/presentation/pages/tv_shows/home_tv_show_page.dart';
 import 'package:ditonton/presentation/pages/tv_shows/popular_tv_show_page.dart';
 import 'package:ditonton/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:ditonton/presentation/pages/watchlists/watchlist_movies_page.dart';
+import 'package:ditonton/presentation/pages/watchlists/watchlist_tv_shows_page.dart';
 import 'package:ditonton/presentation/provider/movies/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/popular_movies_notifier.dart';
@@ -22,6 +23,7 @@ import 'package:ditonton/presentation/provider/search/tv_show_search_notifier.da
 import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
+import 'package:ditonton/presentation/provider/tv_shows/watchlist_tv_show_notifier.dart';
 import 'package:ditonton/presentation/widgets/custom_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<WatchlistTvShowNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<PopularTvShowsNotifier>(),
@@ -112,6 +117,8 @@ class MyApp extends StatelessWidget {
               return CupertinoPageRoute(builder: (_) => SearchTvShowPage());
             case WatchlistMoviesPage.ROUTE_NAME:
               return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
+            case WatchlistTvShowsPage.ROUTE_NAME:
+              return MaterialPageRoute(builder: (_) => WatchlistTvShowsPage());
             case AboutPage.ROUTE_NAME:
               return MaterialPageRoute(builder: (_) => AboutPage());
             default:
