@@ -56,7 +56,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
                     title: tvShow.name ?? "-",
                     overview: tvShow.overview ?? "-",
                     posterPath: tvShow.posterPath ?? "",
-                    isMovie: true,
+                    isMovie: false,
                   );
                 },
                 itemCount: data.watchlistTvShows.length,
