@@ -1,5 +1,5 @@
 name: ditonton
-description: A new Flutter application.
+description: An apps to observe now playings, top rated, or popular movies and tv shows
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -42,10 +42,13 @@ dependencies:
     git:
       url: https://github.com/chornthorn/data_connection_checker.git
       ref: master
+  flutter_bloc: ^8.1.1
+  rxdart: ^0.27.5
 
 dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
+  bloc_test: ^9.1.0
   flutter_test:
     sdk: flutter
 
