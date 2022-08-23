@@ -1,9 +1,8 @@
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/search/tv_show_search_notifier.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/widgets/item_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchTvShowPage extends StatelessWidget {
   static const ROUTE_NAME = '/search-tv-show';
@@ -20,9 +19,8 @@ class SearchTvShowPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<TvShowSearchNotifier>(context, listen: false)
-                    .fetchTvShowSearch(query);
+              onChanged: (query) {
+                context.read<SearchTvShowsBloc>().add(OnQueryChanged(query));
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -36,19 +34,19 @@ class SearchTvShowPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<TvShowSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
+            BlocBuilder<SearchTvShowsBloc, SearchTvShowsState>(
+              builder: (context, state) {
+                if (state is SearchTvShowsLoading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.Loaded) {
-                  final result = data.searchResult;
+                } else if (state is SearchTvShowsHasData) {
+                  final result = state.result;
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final tvShow = data.searchResult[index];
+                        final tvShow = result[index];
                         return ItemCard(
                           id: tvShow.id,
                           title: tvShow.name ?? "-",

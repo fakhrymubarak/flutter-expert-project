@@ -21,7 +21,6 @@ import 'package:ditonton/presentation/provider/movies/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/provider/search/tv_show_search_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/top_rated_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
@@ -72,9 +71,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<TvShowDetailNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvShowSearchNotifier>(),
         ),
 
         BlocProvider(
