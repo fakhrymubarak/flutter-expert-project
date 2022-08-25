@@ -29,9 +29,10 @@ import 'package:ditonton/domain/usecases/watchlists/remove_movie_watchlist.dart'
 import 'package:ditonton/domain/usecases/watchlists/remove_tv_show_watchlist.dart';
 import 'package:ditonton/domain/usecases/watchlists/save_movie_watchlist.dart';
 import 'package:ditonton/domain/usecases/watchlists/save_tv_show_watchlist.dart';
+import 'package:ditonton/presentation/bloc/movies/details/movie_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/movie_watchlist/movie_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/search/search_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
-import 'package:ditonton/presentation/provider/movies/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/movies/top_rated_movies_notifier.dart';
@@ -53,15 +54,6 @@ void init() {
       getNowPlayingMovies: locator(),
       getPopularMovies: locator(),
       getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieDetailNotifier(
-      getMovieDetail: locator(),
-      getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
     ),
   );
   locator.registerFactory(() => PopularMoviesNotifier(locator()));
@@ -92,6 +84,15 @@ void init() {
   // bloc
   locator.registerFactory(() => SearchMoviesBloc(locator()));
   locator.registerFactory(() => SearchTvShowsBloc(locator()));
+  locator.registerFactory(() => MovieDetailBloc(
+        getMovieDetail: locator(),
+        getMovieRecommendations: locator(),
+      ));
+  locator.registerFactory(() => MovieWatchlistBloc(
+        getWatchListStatus: locator(),
+        removeWatchlist: locator(),
+        saveWatchlist: locator(),
+      ));
 
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));

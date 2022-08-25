@@ -26,6 +26,6 @@ class SearchMoviesBloc extends Bloc<SearchMoviesEvent, SearchMoviesState> {
           emit(SearchMoviesHasData(data));
         },
       );
-    }, transformer: debounce(const Duration(milliseconds: 500)));
+      }, transformer: debounce(const Duration(milliseconds: 500)));
   }
 }
