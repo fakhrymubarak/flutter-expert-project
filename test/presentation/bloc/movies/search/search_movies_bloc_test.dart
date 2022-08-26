@@ -20,7 +20,7 @@ void main() {
     searchMoviesBloc = SearchMoviesBloc(mockSearchMovies);
   });
 
-    final tMovieModel = Movie(
+  final tMovieModel = Movie(
     adult: false,
     backdropPath: '/muth4OYamXf41GevdrLEg8d3om.jpg',
     genreIds: [14, 28],

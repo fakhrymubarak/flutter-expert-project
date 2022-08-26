@@ -10,8 +10,6 @@ import 'package:mockito/mockito.dart';
 
 import 'search_tv_shows_test.mocks.dart';
 
-
-
 @GenerateMocks([SearchTvShows])
 void main() {
   late SearchTvShowsBloc searchTvShowsBloc;
@@ -22,28 +20,21 @@ void main() {
     searchTvShowsBloc = SearchTvShowsBloc(mockSearchTvShows);
   });
 
-
   final tTvShowModel = TvShow(
       backdropPath: "/vfWdZYGR5505zrCdgTHteFyARu3.jpg",
       firstAirDate: "2022-03-30",
-      genreIds: [
-        10759,
-        10765,
-        9648
-      ],
+      genreIds: [10759, 10765, 9648],
       id: 92749,
       name: "Moon Knight",
-      originCountry: [
-        "US"
-      ],
+      originCountry: ["US"],
       originalLanguage: "en",
       originalName: "Moon Knight",
-      overview: "When Steven Grant, a mild-mannered gift-shop employee, becomes plagued with blackouts and memories of another life, he discovers he has dissociative identity disorder and shares a body with mercenary Marc Spector. As Steven/Marc's enemies converge upon them, they must navigate their complex identities while thrust into a deadly mystery among the powerful gods of Egypt.",
+      overview:
+          "When Steven Grant, a mild-mannered gift-shop employee, becomes plagued with blackouts and memories of another life, he discovers he has dissociative identity disorder and shares a body with mercenary Marc Spector. As Steven/Marc's enemies converge upon them, they must navigate their complex identities while thrust into a deadly mystery among the powerful gods of Egypt.",
       popularity: 543.452,
       posterPath: "/YksR65as1ppF2N48TJAh2PLamX.jpg",
       voteAverage: 8.1,
-      voteCount: 1375
-  );
+      voteCount: 1375);
   final tTvShowList = <TvShow>[tTvShowModel];
   final tQuery = 'spiderman';
 

@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/bloc/movies/list/now_playing/now_playing_bloc.dart';
-import 'package:ditonton/presentation/bloc/movies/list/popular/popular_bloc.dart';
-import 'package:ditonton/presentation/bloc/movies/list/top_rated/top_rated_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/now_playing/now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/popular/popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/pages/movies/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/movies/popular_movies_page.dart';
+import 'package:ditonton/presentation/pages/movies/search_movie_page.dart';
 import 'package:ditonton/presentation/pages/movies/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/pages/search/search_movie_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,7 +66,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   return Text('Failed');
                 }
               }),
-
               _buildSubHeading(
                 title: 'Popular',
                 onTap: () =>
