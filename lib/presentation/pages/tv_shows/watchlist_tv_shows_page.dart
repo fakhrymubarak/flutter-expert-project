@@ -1,9 +1,8 @@
-import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/provider/tv_shows/watchlist_tv_show_notifier.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/tv_show_watchlist/tv_show_watchlist_bloc.dart';
 import 'package:ditonton/presentation/widgets/item_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WatchlistTvShowsPage extends StatefulWidget {
   static const ROUTE_NAME = '/watchlists-tv-show';
@@ -18,8 +17,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<WatchlistTvShowNotifier>(context, listen: false)
-            .fetchWatchlistTvShows());
+        context.read<TvShowWatchlistBloc>().add(TvShowWatchlistFetched()));
   }
 
   @override
@@ -29,8 +27,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
   }
 
   void didPopNext() {
-    Provider.of<WatchlistTvShowNotifier>(context, listen: false)
-        .fetchWatchlistTvShows();
+    context.read<TvShowWatchlistBloc>().add(TvShowWatchlistFetched());
   }
 
   @override
@@ -41,16 +38,16 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<WatchlistTvShowNotifier>(
-          builder: (context, data, child) {
-            if (data.watchlistState == RequestState.Loading) {
+        child: BlocBuilder<TvShowWatchlistBloc, TvShowWatchlistState>(
+          builder: (context, state) {
+            if (state is TvShowWatchlistLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.watchlistState == RequestState.Loaded) {
+            } else if (state is TvShowWatchlistHasData) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tvShow = data.watchlistTvShows[index];
+                  final tvShow = state.tvShows[index];
                   return ItemCard(
                     id: tvShow.id,
                     title: tvShow.name ?? "-",
@@ -59,14 +56,15 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
                     isMovie: false,
                   );
                 },
-                itemCount: data.watchlistTvShows.length,
+                itemCount: state.tvShows.length,
               );
-            } else {
+            } else if (state is TvShowWatchlistError) {
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
-            }
+            } else
+              return Text('Failed');
           },
         ),
       ),

@@ -35,43 +35,45 @@ import 'package:ditonton/presentation/bloc/movies/home/popular/popular_bloc.dart
 import 'package:ditonton/presentation/bloc/movies/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/movie_watchlist/movie_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/search/search_movies_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/details/tv_show_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/home/now_playing/on_air_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/home/popular/popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
-import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_shows/top_rated_tv_show_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_shows/watchlist_tv_show_notifier.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/tv_show_watchlist/tv_show_watchlist_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 final locator = GetIt.instance;
 
 void init() {
-  // provider
-  locator.registerFactory(
-    () => TvShowListNotifier(
-      getOnAirTvShows: locator(),
-      getPopularTvShows: locator(),
-      getTopRatedTvShows: locator(),
-    ),
-  );
-  locator.registerFactory(() => PopularTvShowsNotifier(locator()));
-  locator.registerFactory(() => TopRatedTvShowsNotifier(locator()));
-  locator.registerFactory(
-      () => WatchlistTvShowNotifier(getWatchlistTvShows: locator()));
-
   // bloc
   locator.registerFactory(() => MovieNowPlayingBloc(locator()));
   locator.registerFactory(() => MoviePopularBloc(locator()));
   locator.registerFactory(() => MovieTopRatedBloc(locator()));
   locator.registerFactory(() => SearchMoviesBloc(locator()));
-  locator.registerFactory(() => SearchTvShowsBloc(locator()));
   locator.registerFactory(() => MovieDetailBloc(
         getMovieDetail: locator(),
         getMovieRecommendations: locator(),
       ));
   locator.registerFactory(() => MovieWatchlistBloc(
+    getWatchListStatus: locator(),
+    getWatchlistMovies: locator(),
+    removeWatchlist: locator(),
+    saveWatchlist: locator(),
+  ));
+
+  locator.registerFactory(() => TvShowOnAirBloc(locator()));
+  locator.registerFactory(() => TvShowPopularBloc(locator()));
+  locator.registerFactory(() => TvShowTopRatedBloc(locator()));
+  locator.registerFactory(() => SearchTvShowsBloc(locator()));
+  locator.registerFactory(() => TvShowDetailBloc(
+    getTvShowDetail: locator(),
+    getTvShowRecommendations: locator(),
+  ));
+  locator.registerFactory(() => TvShowWatchlistBloc(
         getWatchListStatus: locator(),
-        getWatchlistMovies: locator(),
+        getWatchlistTvShows: locator(),
         removeWatchlist: locator(),
         saveWatchlist: locator(),
       ));
