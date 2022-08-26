@@ -7,6 +7,7 @@ import 'package:ditonton/presentation/bloc/movies/home/popular/popular_bloc.dart
 import 'package:ditonton/presentation/bloc/movies/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/movie_watchlist/movie_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/search/search_movies_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_shows/details/tv_show_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/pages/about/about_page.dart';
 import 'package:ditonton/presentation/pages/movies/home_movie_page.dart';
@@ -23,7 +24,6 @@ import 'package:ditonton/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv_shows/watchlist_tv_shows_page.dart';
 import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/top_rated_tv_show_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_list_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/watchlist_tv_show_notifier.dart';
 import 'package:ditonton/presentation/widgets/custom_drawer.dart';
@@ -54,9 +54,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedTvShowsNotifier>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvShowDetailNotifier>(),
-        ),
+
+
         BlocProvider(
           create: (_) => di.locator<MovieNowPlayingBloc>(),
         ),
@@ -70,13 +69,18 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<SearchMoviesBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<SearchTvShowsBloc>(),
-        ),
-        BlocProvider(
           create: (_) => di.locator<MovieDetailBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<MovieWatchlistBloc>(),
+        ),
+
+
+        BlocProvider(
+          create: (_) => di.locator<TvShowDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<SearchTvShowsBloc>(),
         ),
       ],
       child: MaterialApp(
