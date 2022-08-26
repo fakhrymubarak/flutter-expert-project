@@ -1,5 +1,6 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
+import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/bloc/movies/details/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/home/now_playing/now_playing_bloc.dart';
@@ -27,12 +28,17 @@ import 'package:ditonton/presentation/pages/tv_shows/top_rated_tv_show_page.dart
 import 'package:ditonton/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv_shows/watchlist_tv_shows_page.dart';
 import 'package:ditonton/presentation/widgets/custom_drawer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   di.init();
   runApp(MyApp());
 }
@@ -60,8 +66,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<MovieWatchlistBloc>(),
         ),
-
-
         BlocProvider(
           create: (_) => di.locator<TvShowOnAirBloc>(),
         ),
