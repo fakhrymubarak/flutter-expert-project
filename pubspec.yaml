@@ -44,6 +44,7 @@ dependencies:
       ref: master
   flutter_bloc: ^8.1.1
   rxdart: ^0.27.5
+  firebase_crashlytics: ^2.8.9
 
 dev_dependencies:
   mockito: ^5.0.8

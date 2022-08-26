@@ -26,12 +26,6 @@ void main() {
     test('initial state must be empty', () {
       expect(nowPlayingBloc.state, isA<NowPlayingEmpty>());
     });
-    blocTest<MovieNowPlayingBloc, MovieNowPlayingState>(
-        'initialstate should be empty',
-        build: () {
-          return nowPlayingBloc;
-        },
-        expect: () => []);
 
     blocTest<MovieNowPlayingBloc, MovieNowPlayingState>(
         'should get data from the usecase',
