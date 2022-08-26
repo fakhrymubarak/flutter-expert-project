@@ -2,6 +2,9 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/bloc/movies/details/movie_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/list/now_playing/now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/list/popular/popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/list/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/movie_watchlist/movie_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/search/search_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
@@ -18,10 +21,6 @@ import 'package:ditonton/presentation/pages/tv_shows/top_rated_tv_show_page.dart
 import 'package:ditonton/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:ditonton/presentation/pages/watchlists/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/pages/watchlists/watchlist_tv_shows_page.dart';
-import 'package:ditonton/presentation/provider/movies/movie_list_notifier.dart';
-import 'package:ditonton/presentation/provider/movies/popular_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/movies/top_rated_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/movies/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/popular_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/top_rated_tv_show_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
@@ -47,18 +46,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<TvShowListNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<MovieListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularMoviesNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistTvShowNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -70,7 +57,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TvShowDetailNotifier>(),
         ),
-
+        BlocProvider(
+          create: (_) => di.locator<MovieNowPlayingBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MoviePopularBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieTopRatedBloc>(),
+        ),
         BlocProvider(
           create: (_) => di.locator<SearchMoviesBloc>(),
         ),
@@ -93,9 +88,7 @@ class MyApp extends StatelessWidget {
           textTheme: kTextTheme,
         ),
         home: Material(
-          child: CustomDrawer(
-            content: HomeTvShowPage(),
-          ),
+          child: CustomDrawer(content: HomeTvShowPage()),
         ),
         navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {

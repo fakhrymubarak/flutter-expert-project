@@ -6,6 +6,8 @@ abstract class MovieWatchlistEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class MovieWatchlistFetched extends MovieWatchlistEvent {}
+
 class MovieWatchlistStatusFetched extends MovieWatchlistEvent {
   final int id;
 

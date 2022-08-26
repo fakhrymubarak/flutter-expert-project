@@ -239,7 +239,7 @@ class DetailContent extends StatelessWidget {
   Widget _buildWatchlistButton() =>
       BlocConsumer<MovieWatchlistBloc, MovieWatchlistState>(
         listener: ((context, state) {
-          if (state is! MovieWatchlistHasData) return;
+          if (state is! MovieWatchlistStatusData) return;
           final message = state.message;
           if (message == MovieWatchlistBloc.watchlistAddSuccessMessage ||
               message == MovieWatchlistBloc.watchlistRemoveSuccessMessage) {
@@ -256,18 +256,18 @@ class DetailContent extends StatelessWidget {
           }
         }),
         builder: (context, state) {
-          return (state is! MovieWatchlistHasData)
+          return (state is! MovieWatchlistStatusData)
               ? Container()
               : ElevatedButton(
                   onPressed: () async {
-                    context.read<MovieWatchlistBloc>().add((!state.isWishlist)
+                    context.read<MovieWatchlistBloc>().add((!state.isWatchlist)
                         ? MovieSavedToWatchlist(movie)
                         : MovieRemovedFromWatchlist(movie));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      state.isWishlist ? Icon(Icons.check) : Icon(Icons.add),
+                      state.isWatchlist ? Icon(Icons.check) : Icon(Icons.add),
                       Text('Watchlist'),
                     ],
                   ),

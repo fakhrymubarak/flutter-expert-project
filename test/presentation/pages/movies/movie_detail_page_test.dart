@@ -5,7 +5,6 @@ import 'package:ditonton/presentation/pages/movies/movie_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../dummy_data/movies/dummy_objects_movie.dart';
@@ -28,7 +27,6 @@ class FakeMovieDetailState extends Fake implements MovieDetailState {}
 
 class FakeMovieWatchlistState extends Fake implements MovieWatchlistState {}
 
-@GenerateMocks([MovieDetailBloc])
 void main() {
   late MockMovieDetailBloc mockMovieDetailBloc;
   late MockMovieWatchlistBloc mockMovieWatchlistBloc;
@@ -76,7 +74,7 @@ void main() {
       (WidgetTester tester) async {
     _arrangeBloc();
     when(() => mockMovieWatchlistBloc.state).thenAnswer((invocation) =>
-        MovieWatchlistHasData(
+        MovieWatchlistStatusData(
             false, MovieWatchlistBloc.watchlistRemoveSuccessMessage));
     final watchlistButtonIcon = find.byIcon(Icons.add);
     await tester.pumpWidget(_makeTestableWidget(MovieDetailPage(id: tId)));
@@ -88,7 +86,7 @@ void main() {
       (WidgetTester tester) async {
     _arrangeBloc();
     when(() => mockMovieWatchlistBloc.state).thenAnswer((invocation) =>
-        MovieWatchlistHasData(
+        MovieWatchlistStatusData(
             true, MovieWatchlistBloc.watchlistAddSuccessMessage));
 
     final watchlistButtonIcon = find.byIcon(Icons.check);
@@ -106,13 +104,13 @@ void main() {
             mockMovieWatchlistBloc.add(MovieSavedToWatchlist(testMovieDetail)))
         .thenAnswer((invocation) {});
     when(() => mockMovieWatchlistBloc.state).thenAnswer(
-      (invocation) => MovieWatchlistHasData(false, ''),
+      (invocation) => MovieWatchlistStatusData(false, ''),
     );
 
     final watchlistButton = find.byType(ElevatedButton);
     final expectedStates = [
-      MovieWatchlistHasData(false, ''),
-      MovieWatchlistHasData(true, 'Added to Watchlist')
+      MovieWatchlistStatusData(false, ''),
+      MovieWatchlistStatusData(true, 'Added to Watchlist')
     ];
 
     whenListen(mockMovieWatchlistBloc, Stream.fromIterable(expectedStates));
@@ -135,13 +133,13 @@ void main() {
             mockMovieWatchlistBloc.add(MovieSavedToWatchlist(testMovieDetail)))
         .thenAnswer((invocation) {});
     when(() => mockMovieWatchlistBloc.state).thenAnswer(
-      (invocation) => MovieWatchlistHasData(false, ''),
+      (invocation) => MovieWatchlistStatusData(false, ''),
     );
 
     final watchlistButton = find.byType(ElevatedButton);
     final expectedStates = [
-      MovieWatchlistHasData(false, ''),
-      MovieWatchlistHasData(false, 'Failed')
+      MovieWatchlistStatusData(false, ''),
+      MovieWatchlistStatusData(false, 'Failed')
     ];
 
     whenListen(mockMovieWatchlistBloc, Stream.fromIterable(expectedStates));
