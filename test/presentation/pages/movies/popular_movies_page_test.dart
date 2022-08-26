@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/bloc/movies/list/popular/popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/popular/popular_bloc.dart';
 import 'package:ditonton/presentation/pages/movies/popular_movies_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

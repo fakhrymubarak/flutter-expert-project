@@ -1,4 +1,4 @@
-import 'package:ditonton/presentation/bloc/movies/list/top_rated/top_rated_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/widgets/item_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

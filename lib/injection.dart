@@ -30,9 +30,9 @@ import 'package:ditonton/domain/usecases/watchlists/remove_tv_show_watchlist.dar
 import 'package:ditonton/domain/usecases/watchlists/save_movie_watchlist.dart';
 import 'package:ditonton/domain/usecases/watchlists/save_tv_show_watchlist.dart';
 import 'package:ditonton/presentation/bloc/movies/details/movie_detail_bloc.dart';
-import 'package:ditonton/presentation/bloc/movies/list/now_playing/now_playing_bloc.dart';
-import 'package:ditonton/presentation/bloc/movies/list/popular/popular_bloc.dart';
-import 'package:ditonton/presentation/bloc/movies/list/top_rated/top_rated_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/now_playing/now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/popular/popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/movies/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/movie_watchlist/movie_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/movies/search/search_movies_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
