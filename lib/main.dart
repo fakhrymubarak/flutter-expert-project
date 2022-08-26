@@ -1,3 +1,4 @@
+import 'package:about/about.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/firebase_options.dart';
@@ -14,7 +15,6 @@ import 'package:ditonton/presentation/bloc/tv_shows/home/popular/popular_bloc.da
 import 'package:ditonton/presentation/bloc/tv_shows/home/top_rated/top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/tv_show_watchlist/tv_show_watchlist_bloc.dart';
-import 'package:ditonton/presentation/pages/about/about_page.dart';
 import 'package:ditonton/presentation/pages/movies/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/movies/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/movies/popular_movies_page.dart';
