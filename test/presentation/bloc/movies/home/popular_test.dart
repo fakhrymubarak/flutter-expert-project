@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/common/failure.dart';
+import '../../../../../core/lib/utils/failure.dart';
 import 'package:ditonton/domain/usecases/movies/get_popular_movies.dart';
 import 'package:ditonton/presentation/bloc/movies/home/popular/popular_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';

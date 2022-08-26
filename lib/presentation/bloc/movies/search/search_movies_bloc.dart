@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:ditonton/common/bloc_utils.dart';
+import 'package:core/core.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/usecases/movies/search_movies.dart';
 import 'package:equatable/equatable.dart';

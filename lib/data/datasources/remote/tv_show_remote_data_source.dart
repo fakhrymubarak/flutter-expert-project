@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:ditonton/common/exception.dart';
-import 'package:ditonton/common/ssl_pinning.dart';
+import 'package:core/core.dart';
 import 'package:ditonton/data/models/tv_shows/tv_show_detail_model.dart';
 import 'package:ditonton/data/models/tv_shows/tv_shows_model.dart';
 import 'package:ditonton/data/models/tv_shows/tv_shows_recommendation_response.dart';

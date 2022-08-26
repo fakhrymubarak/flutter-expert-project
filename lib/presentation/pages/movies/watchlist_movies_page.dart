@@ -1,4 +1,4 @@
-import 'package:ditonton/common/utils.dart';
+import 'package:core/core.dart';
 import 'package:ditonton/presentation/bloc/movies/movie_watchlist/movie_watchlist_bloc.dart';
 import 'package:ditonton/presentation/widgets/item_card_list.dart';
 import 'package:flutter/material.dart';

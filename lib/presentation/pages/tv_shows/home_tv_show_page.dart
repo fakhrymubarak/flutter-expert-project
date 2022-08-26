@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ditonton/common/constants.dart';
+import 'package:core/core.dart';
 import 'package:ditonton/domain/entities/tv_show.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/home/now_playing/on_air_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/home/popular/popular_bloc.dart';

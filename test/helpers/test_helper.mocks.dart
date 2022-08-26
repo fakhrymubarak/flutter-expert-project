@@ -4,13 +4,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
-import 'dart:convert' as _i29;
-import 'dart:typed_data' as _i30;
+import 'dart:convert' as _i27;
+import 'dart:typed_data' as _i28;
 
+import 'package:core/core.dart' as _i9;
 import 'package:dartz/dartz.dart' as _i2;
-import 'package:ditonton/common/failure.dart' as _i9;
-import 'package:ditonton/common/network_info.dart' as _i27;
-import 'package:ditonton/common/ssl_pinning.dart' as _i28;
 import 'package:ditonton/data/datasources/local/db/database_helper.dart'
     as _i25;
 import 'package:ditonton/data/datasources/local/movie_local_data_source.dart'
@@ -567,7 +565,7 @@ class MockDatabaseHelper extends _i1.Mock implements _i25.DatabaseHelper {
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i27.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i9.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
@@ -581,7 +579,7 @@ class MockNetworkInfo extends _i1.Mock implements _i27.NetworkInfo {
 /// A class which mocks [ApiIOClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiIOClient extends _i1.Mock implements _i28.ApiIOClient {
+class MockApiIOClient extends _i1.Mock implements _i9.ApiIOClient {
   MockApiIOClient() {
     _i1.throwOnMissingStub(this);
   }
@@ -612,7 +610,7 @@ class MockApiIOClient extends _i1.Mock implements _i28.ApiIOClient {
   _i8.Future<_i5.Response> post(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i29.Encoding? encoding}) =>
+          _i27.Encoding? encoding}) =>
       (super
           .noSuchMethod(Invocation.method(#post, [url], {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: _i8.Future<_i5.Response>.value(_FakeResponse_3(
@@ -628,7 +626,7 @@ class MockApiIOClient extends _i1.Mock implements _i28.ApiIOClient {
   _i8.Future<_i5.Response> put(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i29.Encoding? encoding}) =>
+          _i27.Encoding? encoding}) =>
       (super
           .noSuchMethod(Invocation.method(#put, [url], {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: _i8.Future<_i5.Response>.value(_FakeResponse_3(
@@ -644,7 +642,7 @@ class MockApiIOClient extends _i1.Mock implements _i28.ApiIOClient {
   _i8.Future<_i5.Response> patch(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i29.Encoding? encoding}) =>
+          _i27.Encoding? encoding}) =>
       (super
           .noSuchMethod(Invocation.method(#patch, [url], {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: _i8.Future<_i5.Response>.value(_FakeResponse_3(
@@ -660,7 +658,7 @@ class MockApiIOClient extends _i1.Mock implements _i28.ApiIOClient {
   _i8.Future<_i5.Response> delete(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i29.Encoding? encoding}) =>
+          _i27.Encoding? encoding}) =>
       (super
           .noSuchMethod(Invocation.method(#delete, [url], {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: _i8.Future<_i5.Response>.value(_FakeResponse_3(
@@ -677,10 +675,10 @@ class MockApiIOClient extends _i1.Mock implements _i28.ApiIOClient {
       (super.noSuchMethod(Invocation.method(#read, [url], {#headers: headers}),
           returnValue: _i8.Future<String>.value('')) as _i8.Future<String>);
   @override
-  _i8.Future<_i30.Uint8List> readBytes(Uri? url,
+  _i8.Future<_i28.Uint8List> readBytes(Uri? url,
           {Map<String, String>? headers}) =>
       (super.noSuchMethod(
               Invocation.method(#readBytes, [url], {#headers: headers}),
-              returnValue: _i8.Future<_i30.Uint8List>.value(_i30.Uint8List(0)))
-          as _i8.Future<_i30.Uint8List>);
+              returnValue: _i8.Future<_i28.Uint8List>.value(_i28.Uint8List(0)))
+          as _i8.Future<_i28.Uint8List>);
 }

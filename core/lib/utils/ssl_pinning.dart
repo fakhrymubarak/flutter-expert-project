@@ -1,4 +1,4 @@
-import 'package:ditonton/common/shared.dart';
+import 'package:core/utils/shared.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 

@@ -1,5 +1,4 @@
-import 'package:ditonton/common/network_info.dart';
-import 'package:ditonton/common/ssl_pinning.dart';
+import 'package:core/core.dart';
 import 'package:ditonton/data/datasources/local/db/database_helper.dart';
 import 'package:ditonton/data/datasources/local/movie_local_data_source.dart';
 import 'package:ditonton/data/datasources/local/tv_show_local_data_source.dart';
