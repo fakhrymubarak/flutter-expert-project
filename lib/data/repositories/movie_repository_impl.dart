@@ -12,6 +12,7 @@ import 'package:ditonton/data/models/watchlist/watchlist_table.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/domain/repositories/movie_repository.dart';
+import 'package:flutter/services.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDataSource remoteDataSource;
@@ -26,6 +27,13 @@ class MovieRepositoryImpl implements MovieRepository {
     required this.networkInfo,
   });
 
+  Future<SecurityContext> get globalContext async {
+    final sslCert = await rootBundle.load('certificates/certificate.cer');
+    SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
+    securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+    return securityContext;
+  }
+
   @override
   Future<Either<Failure, List<Movie>>> getNowPlayingMovies() async {
     if (await networkInfo.isConnected) {
@@ -36,6 +44,8 @@ class MovieRepositoryImpl implements MovieRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
       }
     } else {
       try {
@@ -47,7 +57,6 @@ class MovieRepositoryImpl implements MovieRepository {
     }
   }
 
-
   @override
   Future<Either<Failure, MovieDetail>> getMovieDetail(int id) async {
     try {
@@ -55,6 +64,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Right(result.toEntity());
     } on ServerException {
       return Left(ServerFailure(''));
+    } on TlsException catch (e) {
+      return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
@@ -67,6 +78,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
+    } on TlsException catch (e) {
+      return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
@@ -82,6 +95,8 @@ class MovieRepositoryImpl implements MovieRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
       }
     } else {
       try {
@@ -103,6 +118,8 @@ class MovieRepositoryImpl implements MovieRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
       }
     } else {
       try {
@@ -121,6 +138,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
+    } on TlsException catch (e) {
+      return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
@@ -129,8 +148,8 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either<Failure, String>> saveWatchlist(MovieDetail movie) async {
     try {
-      final result =
-          await wLocalDataSource.insertWatchlist(WatchlistTable.fromMovieEntity(movie));
+      final result = await wLocalDataSource
+          .insertWatchlist(WatchlistTable.fromMovieEntity(movie));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -142,8 +161,8 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either<Failure, String>> removeWatchlist(MovieDetail movie) async {
     try {
-      final result =
-          await wLocalDataSource.removeWatchlist(WatchlistTable.fromMovieEntity(movie));
+      final result = await wLocalDataSource
+          .removeWatchlist(WatchlistTable.fromMovieEntity(movie));
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));

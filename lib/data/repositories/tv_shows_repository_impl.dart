@@ -12,6 +12,7 @@ import 'package:ditonton/data/models/watchlist/watchlist_table.dart';
 import 'package:ditonton/domain/entities/tv_show.dart';
 import 'package:ditonton/domain/entities/tv_show_detail.dart';
 import 'package:ditonton/domain/repositories/tv_shows_repository.dart';
+import 'package:flutter/foundation.dart';
 
 class TvShowRepositoryImpl implements TvShowRepository {
   final TvShowRemoteDataSource remoteDataSource;
@@ -36,6 +37,9 @@ class TvShowRepositoryImpl implements TvShowRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        debugPrint(e.message);
+        return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
       }
     } else {}
     try {
@@ -56,6 +60,9 @@ class TvShowRepositoryImpl implements TvShowRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        debugPrint(e.message);
+        return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
       }
     } else {}
     try {
@@ -76,6 +83,9 @@ class TvShowRepositoryImpl implements TvShowRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        debugPrint(e.message);
+        return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
       }
     } else {}
     try {
@@ -93,6 +103,9 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Right(result.toEntity());
     } on ServerException {
       return Left(ServerFailure(''));
+    } on TlsException catch (e) {
+      debugPrint(e.message);
+      return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
@@ -105,6 +118,9 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
+    } on TlsException catch (e) {
+      debugPrint(e.message);
+      return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
@@ -153,6 +169,9 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
+    } on TlsException catch (e) {
+      debugPrint(e.message);
+      return Left(SSLFailure('SSL/TLS certificate not valid: ${e.message}'));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }

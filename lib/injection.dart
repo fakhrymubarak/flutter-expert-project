@@ -1,5 +1,6 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:ditonton/common/network_info.dart';
+import 'package:ditonton/common/ssl_pinning.dart';
 import 'package:ditonton/data/datasources/local/db/database_helper.dart';
 import 'package:ditonton/data/datasources/local/movie_local_data_source.dart';
 import 'package:ditonton/data/datasources/local/tv_show_local_data_source.dart';
@@ -42,7 +43,6 @@ import 'package:ditonton/presentation/bloc/tv_shows/home/top_rated/top_rated_blo
 import 'package:ditonton/presentation/bloc/tv_shows/search/search_tv_shows_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_shows/tv_show_watchlist/tv_show_watchlist_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 
 final locator = GetIt.instance;
 
@@ -142,6 +142,6 @@ void init() {
   locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(locator()));
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => ApiIOClient());
   locator.registerLazySingleton(() => DataConnectionChecker());
 }
