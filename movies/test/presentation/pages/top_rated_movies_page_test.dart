@@ -7,6 +7,8 @@ import 'package:movies/domain/entities/movie.dart';
 import 'package:movies/presentation/bloc/home/top_rated/top_rated_bloc.dart';
 import 'package:movies/presentation/pages/top_rated_movies_page.dart';
 
+import '../../data/dummy_data/dummy_objects_movie.dart';
+
 class MockMovieTopRatedBloc
     extends MockBloc<MovieTopRatedEvent, MovieTopRatedState>
     implements MovieTopRatedBloc {}
@@ -61,9 +63,9 @@ void main() {
     when(() => mockMovieTopRatedBloc.add(TopRatedFetched()))
         .thenAnswer((invocation) {});
     when(() => mockMovieTopRatedBloc.state)
-        .thenAnswer((invocation) => TopRatedHasData(<Movie>[]));
+        .thenAnswer((invocation) => TopRatedHasData(<Movie>[testMovie]));
 
-    final listViewFinder = find.byType(ListView);
+    final listViewFinder = find.byKey(Key('list_movies'));
 
     await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
 
@@ -82,5 +84,19 @@ void main() {
     await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
 
     expect(textFinder, findsOneWidget);
+  });
+
+  testWidgets('Page should display nothing when state is empty ',
+      (WidgetTester tester) async {
+    when(() => mockMovieTopRatedBloc.add(TopRatedFetched()))
+        .thenAnswer((invocation) {});
+    when(() => mockMovieTopRatedBloc.state)
+        .thenAnswer((invocation) => TopRatedEmpty());
+
+    final emptyWidget = find.byKey(Key('empty_widget'));
+
+    await tester.pumpWidget(_makeTestableWidget(TopRatedMoviesPage()));
+
+    expect(emptyWidget, findsOneWidget);
   });
 }

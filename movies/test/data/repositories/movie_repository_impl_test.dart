@@ -87,6 +87,19 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
 
+      test('should return SSLFailure when api call failed by ssl failure',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getNowPlayingMovies())
+                .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+            // act
+            final result = await repository.getNowPlayingMovies();
+            // assert
+            verify(mockRemoteDataSource.getNowPlayingMovies());
+            expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+          });
+
+
       test(
           'should return remote data when the call to remote data source is successful',
               () async {
@@ -175,7 +188,17 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
-
+      test('should return SSLFailure when api call failed by ssl failure',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getPopularMovies())
+                .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+            // act
+            final result = await repository.getPopularMovies();
+            // assert
+            verify(mockRemoteDataSource.getPopularMovies());
+            expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+          });
       test(
           'should return remote data when the call to remote data source is successful',
               () async {
@@ -264,7 +287,17 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
-
+      test('should return SSLFailure when api call failed by ssl failure',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getTopRatedMovies())
+                .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+            // act
+            final result = await repository.getTopRatedMovies();
+            // assert
+            verify(mockRemoteDataSource.getTopRatedMovies());
+            expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+          });
       test(
           'should return remote data when the call to remote data source is successful',
               () async {
@@ -363,6 +396,18 @@ void main() {
       voteCount: 1,
     );
 
+    test('should return SSLFailure when api call failed by ssl failure',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.getMovieDetail(tId))
+              .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+          // act
+          final result = await repository.getMovieDetail(tId);
+          // assert
+          verify(mockRemoteDataSource.getMovieDetail(tId));
+          expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+        });
+
     test(
         'should return Movie data when the call to remote data source is successful',
         () async {
@@ -407,6 +452,18 @@ void main() {
   group('Get Movie Recommendations', () {
     final tMovieList = <MovieModel>[];
     final tId = 1;
+
+    test('should return SSLFailure when api call failed by ssl failure',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.getMovieRecommendations(tId))
+              .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+          // act
+          final result = await repository.getMovieRecommendations(tId);
+          // assert
+          verify(mockRemoteDataSource.getMovieRecommendations(tId));
+          expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+        });
 
     test('should return data (movie list) when the call is successful',
         () async {
@@ -453,6 +510,17 @@ void main() {
   group('Search Movies', () {
     final tQuery = 'spiderman';
 
+    test('should return SSLFailure when api call failed by ssl failure',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.searchMovies(tQuery))
+              .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+          // act
+          final result = await repository.searchMovies(tQuery);
+          // assert
+          verify(mockRemoteDataSource.searchMovies(tQuery));
+          expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+        });
     test('should return movie list when call to data source is successful',
         () async {
       // arrange

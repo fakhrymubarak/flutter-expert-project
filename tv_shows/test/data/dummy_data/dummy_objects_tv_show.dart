@@ -1,5 +1,5 @@
+import 'package:movies/domain/entities/genre.dart';
 import 'package:tv_shows/data/models/tv_show_table.dart';
-import 'package:tv_shows/domain/entities/genre.dart';
 import 'package:tv_shows/domain/entities/tv_show.dart';
 import 'package:tv_shows/domain/entities/tv_show_detail.dart';
 import 'package:watchlist/data/models/watchlist_table.dart';

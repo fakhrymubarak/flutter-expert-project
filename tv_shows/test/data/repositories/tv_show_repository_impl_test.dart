@@ -90,6 +90,18 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
 
+      test('should return SSLFailure when api call failed by ssl failure',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getOnAirTvShows())
+                .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+            // act
+            final result = await repository.getOnAirTvShows();
+            // assert
+            verify(mockRemoteDataSource.getOnAirTvShows());
+            expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+          });
+
       test(
           'should return remote data when the call to remote data source is successful',
           () async {
@@ -100,7 +112,6 @@ void main() {
         final result = await repository.getOnAirTvShows();
         // assert
         verify(mockRemoteDataSource.getOnAirTvShows());
-        /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
         final resultList = result.getOrElse(() => []);
         expect(resultList, tTvShowList);
       });
@@ -160,6 +171,7 @@ void main() {
         expect(result, Left(CacheFailure('No Cache')));
       });
     });
+
   });
 
   group('Popular Tv Shows', () {
@@ -178,6 +190,18 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
+
+      test('should return SSLFailure when api call failed by ssl failure',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getPopularTvShows())
+                .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+            // act
+            final result = await repository.getPopularTvShows();
+            // assert
+            verify(mockRemoteDataSource.getPopularTvShows());
+            expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+          });
 
       test(
           'should return remote data when the call to remote data source is successful',
@@ -267,6 +291,18 @@ void main() {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
+
+      test('should return SSLFailure when api call failed by ssl failure',
+              () async {
+            // arrange
+            when(mockRemoteDataSource.getTopRatedTvShows())
+                .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+            // act
+            final result = await repository.getTopRatedTvShows();
+            // assert
+            verify(mockRemoteDataSource.getTopRatedTvShows());
+            expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+          });
 
       test(
           'should return remote data when the call to remote data source is successful',
@@ -415,6 +451,18 @@ void main() {
       voteCount: 1,
     );
 
+    test('should return SSLFailure when api call failed by ssl failure',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.getTvShowDetail(tId))
+              .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+          // act
+          final result = await repository.getTvShowDetail(tId);
+          // assert
+          verify(mockRemoteDataSource.getTvShowDetail(tId));
+          expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+        });
+
     test(
         'should return TvShow data when the call to remote data source is successful',
         () async {
@@ -459,6 +507,19 @@ void main() {
   group('Get TvShow Recommendations', () {
     final tTvShowList = <TvShowModel>[];
     final tId = 1;
+
+    test('should return SSLFailure when api call failed by ssl failure',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.getTvShowRecommendations(tId))
+              .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+          // act
+          final result = await repository.getTvShowRecommendations(tId);
+          // assert
+          verify(mockRemoteDataSource.getTvShowRecommendations(tId));
+          expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+        });
+
 
     test('should return data (tv show list) when the call is successful',
         () async {
@@ -574,6 +635,18 @@ void main() {
   group('Search TvShows', () {
     final tQuery = 'moon knight';
 
+    test('should return SSLFailure when api call failed by ssl failure',
+            () async {
+          // arrange
+          when(mockRemoteDataSource.searchTvShows(tQuery))
+              .thenThrow(const TlsException('Unacceptable TLS certificate.'));
+          // act
+          final result = await repository.searchTvShows(tQuery);
+          // assert
+          verify(mockRemoteDataSource.searchTvShows(tQuery));
+          expect(result, equals(Left(SSLFailure('SSL/TLS certificate not valid: Unacceptable TLS certificate.'))));
+        });
+
     test('should return movie list when call to data source is successful',
             () async {
           // arrange
@@ -582,7 +655,6 @@ void main() {
           // act
           final result = await repository.searchTvShows(tQuery);
           // assert
-          /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
           final resultList = result.getOrElse(() => []);
           expect(resultList, tTvShowList);
         });

@@ -3,7 +3,7 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:tv_shows/domain/entities/genre.dart';
+import 'package:movies/domain/entities/genre.dart';
 import 'package:tv_shows/domain/entities/tv_show.dart';
 import 'package:tv_shows/domain/entities/tv_show_detail.dart';
 import 'package:tv_shows/presentation/bloc/details/tv_show_detail_bloc.dart';

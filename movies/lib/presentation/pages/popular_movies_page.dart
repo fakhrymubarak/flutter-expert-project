@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/presentation/bloc/home/popular/popular_bloc.dart';
 
 class PopularMoviesPage extends StatefulWidget {
-
   @override
   _PopularMoviesPageState createState() => _PopularMoviesPageState();
 }
@@ -14,8 +13,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context
-        ..read<MoviePopularBloc>().add(PopularFetched());
+      context..read<MoviePopularBloc>().add(PopularFetched());
     });
   }
 
@@ -35,14 +33,15 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
               );
             } else if (state is PopularHasData) {
               return ListView.builder(
+                key: Key('list_movies'),
                 itemBuilder: (context, index) {
                   final movie = state.movies[index];
                   return ItemCard(
-                      id: movie.id,
-                      title: movie.title ?? "-",
-                      overview: movie.overview ?? "-",
-                      posterPath: movie.posterPath ?? "",
-                      isMovie: true,
+                    id: movie.id,
+                    title: movie.title ?? "-",
+                    overview: movie.overview ?? "-",
+                    posterPath: movie.posterPath ?? "",
+                    isMovie: true,
                   );
                 },
                 itemCount: state.movies.length,
@@ -53,7 +52,9 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
                 child: Text(state.message),
               );
             } else {
-              return Text('Failed');
+              return const SizedBox.shrink(
+                key: Key('empty_widget'),
+              );
             }
           },
         ),

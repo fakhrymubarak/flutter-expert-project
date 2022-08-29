@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/presentation/bloc/home/top_rated/top_rated_bloc.dart';
 
 class TopRatedMoviesPage extends StatefulWidget {
-
   @override
   _TopRatedMoviesPageState createState() => _TopRatedMoviesPageState();
 }
@@ -14,8 +13,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context
-        ..read<MovieTopRatedBloc>().add(TopRatedFetched());
+      context..read<MovieTopRatedBloc>().add(TopRatedFetched());
     });
   }
 
@@ -35,6 +33,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
               );
             } else if (state is TopRatedHasData) {
               return ListView.builder(
+                key: const Key('list_movies'),
                 itemBuilder: (context, index) {
                   final movie = state.movies[index];
                   return ItemCard(
@@ -53,7 +52,9 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
                 child: Text(state.message),
               );
             } else {
-              return Text('Failed');
+              return const SizedBox.shrink(
+                key: Key('empty_widget'),
+              );
             }
           },
         ),

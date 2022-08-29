@@ -45,9 +45,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   DetailContent(state.movieDetail, state.movieRecommendations),
             );
           } else if (state is MovieDetailError) {
-            return Text(state.messageDetailError);
+            return Center(
+                key: Key('error_message_detail'),
+                child: Text(state.messageDetailError));
           } else {
-            return Container();
+            return const SizedBox.shrink();
           }
         },
       ),

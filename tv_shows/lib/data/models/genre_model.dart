@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:tv_shows/domain/entities/genre.dart';
+import 'package:movies/domain/entities/genre.dart';
 
 class GenreModel extends Equatable {
   GenreModel({
